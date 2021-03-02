@@ -10,5 +10,6 @@ public interface UserService {
 	public void deleteUser(User user);
 	public void updateUser(User user);
 	public List<User> findByLogin(String login);
+	public User findByEmailAddress(String emailAddress);
 	public User findById(Long id);
 }
