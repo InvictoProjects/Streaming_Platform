@@ -1,6 +1,7 @@
-package com.invicto.streamingPlatform.services;
+package com.invicto.streamingPlatform.services.impl;
 
 import com.invicto.streamingPlatform.persistence.model.User;
+import com.invicto.streamingPlatform.services.UserService;
 import com.invicto.streamingPlatform.storage.UserRepository;
 import org.springframework.stereotype.Service;
 
