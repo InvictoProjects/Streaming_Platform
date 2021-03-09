@@ -23,9 +23,9 @@ public class UserController {
 
     @PostMapping("/signup")
     public String addUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
-        //if (bindingResult.hasErrors()) {
-            //return "signup";
-        //}
+        if (bindingResult.hasErrors()) {
+            return "signup";
+        }
         // TODO: save user to database via service
 
         return "redirect:/signup";
