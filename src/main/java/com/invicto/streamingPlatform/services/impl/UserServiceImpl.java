@@ -47,14 +47,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> findByLogin(String login) {
-		List<User> users = userRepository.findByLogin(login);
-		if (users == null) {
+	public User findByLogin(String login) {
+		User user = userRepository.findByLogin(login);
+		if (user == null) {
 
 			// Throw userIsNotExist exception
 
 		}
-		return users;
+		return user;
 	}
 
 	@Override
