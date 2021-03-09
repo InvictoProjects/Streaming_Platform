@@ -7,7 +7,7 @@
 <body>
 <h2 th:text="#{user.register}">New User</h2>
 
-<form th:action="@{/user/register}" th:object="${user}" method="post">
+<form th:action="@{/signup}" th:object="${user}" method="post">
     <p>
         <label for="login">Login</label>
         <input type="text" th:field="*{login}" id="login" placeholder="Enter login" />
