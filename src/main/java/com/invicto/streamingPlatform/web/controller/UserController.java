@@ -14,7 +14,7 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping(value = "/")
 public class UserController {
-
+  
     @GetMapping("/signup")
     public String registerUser(Model model) {
         model.addAttribute("user", new User());
@@ -29,5 +29,15 @@ public class UserController {
         // TODO: save user to database via service
 
         return "redirect:/signup";
+    }  
+
+    @GetMapping("/login")
+    public String viewLoginPage() {
+        return "login";
     }
+
+    @PostMapping("/login")
+    public String login() {
+        return "redirect:/";
+    }  
 }
