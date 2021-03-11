@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="login" http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Streaming Platform</title>
+</head>
+<body>
+<div>
+    <div>
+        <h2 th:text="#{user.login}">Log In</h2>
+    </div>
+    <div>
+        <form th:action="@{/login}" method="post">
+            <div th:if="${param.error}">
+                <p class="text-danger">Invalid username, email or password</p>
+            </div>
+
+            <div th:if="${param.logout}">
+                <p class="text-warning">You have been logged out.</p>
+            </div>
+            <div>
+                <p>
+                    <label for="username">
+                        <input type="text" id="username" placeholder="Your username or email " name="username" required autofocus>
+
+                    </label>
+                </p>
+                <p>
+                    <label for="password">
+                        <input type="password" id="password" placeholder="Your password" name="password" required>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input type="checkbox" checked="checked" name="remember-me"> Remember me
+                    </label>
+                </p>
+                <button type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        <div>
+            <span>
+                <a th:href="@{/signup}">Sign up</a>
+            </span>
+        </div>
+    </div>
+</div>
+</body>

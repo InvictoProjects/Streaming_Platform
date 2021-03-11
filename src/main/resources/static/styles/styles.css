@@ -1,0 +1,200 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+:root {
+  --color-primary: #000000;
+  --color-secondary: #ffffff;
+  --color-accent-primary: #303030;
+  --color-accent-secondary: #f5f5f5;
+  --bg-color-primary: #ffffff;
+  --bg-color-secondary: #f5f5f5;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--bg-color-primary);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  flex: 1;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-primary);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--bg-color-secondary);
+}
+
+.header-start a {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.header-end {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header-end a {
+  margin-left: 1.25rem;
+  font-weight: 700;
+}
+
+.login-btn {
+  padding: 0.5rem 1.125rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0 0.125rem inset var(--color-primary);
+}
+
+.login-btn:hover {
+  background-color: var(--color-accent-secondary);
+}
+
+.signup-btn {
+  color: var(--color-secondary);
+  padding: 0.5rem 1.125rem;
+  background-color: var(--color-primary);
+  border-radius: 0.5rem;
+}
+
+.logout-btn:hover {
+  color: var(--color-accent-primary);
+}
+
+.signup-btn:hover {
+  background-color: var(--color-accent-primary);
+}
+
+.videos-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 1rem 2rem;
+}
+
+.videos-container a {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin: 1rem 0;
+}
+
+.videos {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1.25rem;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.videos li:nth-of-type(1n+11) {
+  display: none;
+}
+
+.videos img {
+  max-width: 100%;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 4rem;
+  background-color: var(--bg-color-secondary);
+}
+
+.footer-start {
+  width: 10.125rem;
+  height: 1.25rem;
+}
+
+.invicto-logo {
+  fill: var(--color-primary);
+}
+
+.footer-end {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.footer-end p {
+  margin-left: 2rem;
+}
+
+.footer-end a {
+  font-weight: 700;
+}
+
+@media only screen and (min-width:1200px) and (max-width:1680px) {
+  .videos {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .videos li:nth-of-type(1n+9) {
+    display: none;
+  }
+}
+
+@media only screen and (min-width:768px) and (max-width:1200px) {
+  .videos {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .videos li:nth-of-type(1n+7) {
+    display: none;
+  }
+}
+
+@media only screen and (min-width:480px) and (max-width:768px) {
+  .videos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .videos li:nth-of-type(1n+5) {
+    display: none;
+  }
+
+  .footer {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width:480px) {
+  .videos {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .videos li:nth-of-type(1n+3) {
+    display: none;
+  }
+
+  .footer {
+    flex-direction: column;
+  }
+}
