@@ -1,11 +1,11 @@
 package com.invicto.streamingPlatform.services.impl;
 
 import com.invicto.streamingPlatform.persistence.model.User;
+import com.invicto.streamingPlatform.persistence.repository.UserRepository;
 import com.invicto.streamingPlatform.services.UserService;
-import com.invicto.streamingPlatform.storage.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -43,39 +43,24 @@ public class UserServiceImpl implements UserService {
 			// Throw userIsNotExist exception
 
 		}
-		userRepository.update(user);
+		userRepository.save(user);
 	}
 
 	@Override
-	public User findByLogin(String login) {
-		User user = userRepository.findByLogin(login);
-		if (user == null) {
-
-			// Throw userIsNotExist exception
-
-		}
+	public Optional<User> findByLogin(String login) {
+		Optional<User> user = userRepository.findByLogin(login);
 		return user;
 	}
 
 	@Override
-	public User findByEmailAddress(String emailAddress) {
-		User user = userRepository.findByEmailAddress(emailAddress);
-		if (user == null) {
-
-			// Throw userIsNotExist exception
-
-		}
+	public Optional<User> findByEmailAddress(String emailAddress) {
+		Optional<User> user = userRepository.findByEmailAddress(emailAddress);
 		return user;
 	}
 
 	@Override
-	public User findById(Long id) {
-		User user = userRepository.findById(id);
-		if (user == null) {
-
-			// Throw userIsNotExist exception
-
-		}
+	public Optional<User> findById(Long id) {
+		Optional<User> user = userRepository.findById(id);
 		return user;
 	}
 }
