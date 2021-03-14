@@ -13,11 +13,7 @@
         <form th:action="@{/login}" method="post">
             <div th:if="${param.error}">
                 <p class="text-danger">Invalid username, email or password</p>
-            </div>
-
-            <div th:if="${param.logout}">
-                <p class="text-warning">You have been logged out.</p>
-            </div>
+            </div>git
             <div>
                 <p>
                     <label for="username">
