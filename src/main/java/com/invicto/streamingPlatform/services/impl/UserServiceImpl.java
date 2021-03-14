@@ -3,18 +3,18 @@ package com.invicto.streamingPlatform.services.impl;
 import com.invicto.streamingPlatform.persistence.model.User;
 import com.invicto.streamingPlatform.persistence.repository.UserRepository;
 import com.invicto.streamingPlatform.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Component
 public class UserServiceImpl implements UserService {
 
-	private final UserRepository userRepository;
-
-	public UserServiceImpl(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+	@Autowired
+	private UserRepository userRepository;
 
 	@Override
 	public void createUser(User user) {
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<User> findByEmailAddress(String emailAddress) {
-		Optional<User> user = userRepository.findByEmailAddress(emailAddress);
+		Optional<User> user = userRepository.findByEmail(emailAddress);
 		return user;
 	}
 

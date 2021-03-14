@@ -2,7 +2,9 @@ package com.invicto.streamingPlatform.config;
 
 import com.invicto.streamingPlatform.persistence.model.User;
 import com.invicto.streamingPlatform.services.UserService;
+import com.invicto.streamingPlatform.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +21,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     private UserService userService;
-
+    
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String userName = authentication.getName();
@@ -28,9 +30,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         Matcher matcher = emailPattern.matcher(userName);
         User myUser;
         if (matcher.find()) {
-            myUser = userService.findByEmailAddress(userName);
+            myUser = userService.findByEmailAddress(userName).get();
         } else {
-            myUser = userService.findByLogin(userName);
+            myUser = userService.findByLogin(userName).get();
         }
         if (myUser == null) {
             throw new BadCredentialsException("Unknown user "+userName);
