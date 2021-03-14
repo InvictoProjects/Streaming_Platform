@@ -2,9 +2,7 @@ package com.invicto.streamingPlatform.config;
 
 import com.invicto.streamingPlatform.persistence.model.User;
 import com.invicto.streamingPlatform.services.UserService;
-import com.invicto.streamingPlatform.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,12 +29,19 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         Matcher matcher = emailPattern.matcher(userName);
         User myUser;
         if (matcher.find()) {
-            myUser = userService.findByEmailAddress(userName).get();
+            Optional<User> myUserOptional = userService.findByEmail(userName);
+            if (myUserOptional.isPresent()) {
+                myUser = myUserOptional.get();
+            } else {
+                throw new BadCredentialsException("Unknown user "+userName);
+            }
         } else {
-            myUser = userService.findByLogin(userName).get();
-        }
-        if (myUser == null) {
-            throw new BadCredentialsException("Unknown user "+userName);
+            Optional<User> myUserOptional = userService.findByLogin(userName);
+            if (myUserOptional.isPresent()) {
+                myUser = myUserOptional.get();
+            } else {
+                throw new BadCredentialsException("Unknown user "+userName);
+            }
         }
         if (!password.equals(myUser.getPassword())) {
             throw new BadCredentialsException("Bad password");
