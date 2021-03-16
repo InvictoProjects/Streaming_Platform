@@ -1,6 +1,6 @@
-package com.invicto.streamingPlatform.web.controller;
+package com.invicto.streaming_platform.web.controller;
 
-import com.invicto.streamingPlatform.persistence.model.User;
+import com.invicto.streaming_platform.persistence.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

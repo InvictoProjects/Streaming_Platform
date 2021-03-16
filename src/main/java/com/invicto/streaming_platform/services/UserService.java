@@ -1,6 +1,6 @@
-package com.invicto.streamingPlatform.services;
+package com.invicto.streaming_platform.services;
 
-import com.invicto.streamingPlatform.persistence.model.User;
+import com.invicto.streaming_platform.persistence.model.User;
 
 import java.util.Optional;
 

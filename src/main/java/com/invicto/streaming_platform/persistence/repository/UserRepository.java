@@ -1,6 +1,6 @@
-package com.invicto.streamingPlatform.persistence.repository;
+package com.invicto.streaming_platform.persistence.repository;
 
-import com.invicto.streamingPlatform.persistence.model.User;
+import com.invicto.streaming_platform.persistence.model.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
