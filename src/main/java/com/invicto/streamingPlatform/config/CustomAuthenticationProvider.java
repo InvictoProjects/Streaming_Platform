@@ -28,7 +28,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         Matcher matcher = emailPattern.matcher(userName);
         User myUser;
         if (matcher.find()) {
-            myUser = userService.findByEmailAddress(userName).get();
+            myUser = userService.findByEmail(userName).get();
         } else {
             myUser = userService.findByLogin(userName).get();
         }
