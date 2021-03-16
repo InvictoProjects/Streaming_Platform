@@ -28,9 +28,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         Matcher matcher = emailPattern.matcher(userName);
         User myUser;
         if (matcher.find()) {
-            myUser = userService.findByEmailAddress(userName);
+            myUser = userService.findByEmailAddress(userName).get();
         } else {
-            myUser = userService.findByLogin(userName);
+            myUser = userService.findByLogin(userName).get();
         }
         if (myUser == null) {
             throw new BadCredentialsException("Unknown user "+userName);
