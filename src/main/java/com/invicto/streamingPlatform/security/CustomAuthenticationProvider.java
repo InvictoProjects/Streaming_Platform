@@ -1,4 +1,4 @@
-package com.invicto.streamingPlatform.config;
+package com.invicto.streamingPlatform.security;
 
 import com.invicto.streamingPlatform.persistence.model.User;
 import com.invicto.streamingPlatform.services.UserService;
@@ -23,36 +23,21 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String userName = authentication.getName();
+        String input = authentication.getName();
         String password = authentication.getCredentials().toString();
-        Pattern emailPattern = Pattern.compile("A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = emailPattern.matcher(userName);
-        User myUser;
-        if (matcher.find()) {
-            Optional<User> myUserOptional = userService.findByEmail(userName);
-            if (myUserOptional.isPresent()) {
-                myUser = myUserOptional.get();
-            } else {
-                throw new BadCredentialsException("Unknown user "+userName);
-            }
-        } else {
-            Optional<User> myUserOptional = userService.findByLogin(userName);
-            if (myUserOptional.isPresent()) {
-                myUser = myUserOptional.get();
-            } else {
-                throw new BadCredentialsException("Unknown user "+userName);
-            }
+        Optional<User> optionalUser = userService.findByLoginOrEmail(input);
+        if (optionalUser.isEmpty()) {
+            throw new BadCredentialsException("Unknown user "+input);
         }
-        if (!password.equals(myUser.getPassword())) {
+        if (!password.equals(optionalUser.get().getPassword())) {
             throw new BadCredentialsException("Bad password");
         }
         UserDetails principal = org.springframework.security.core.userdetails.User.builder()
-                .username(myUser.getLogin())
-                .password(myUser.getPassword())
-                .roles("ROLE_USER")
+                .username(optionalUser.get().getLogin())
+                .password(optionalUser.get().getPassword())
+                .roles("USER")
                 .build();
-        return new UsernamePasswordAuthenticationToken(
-                principal, password, principal.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
     }
 
     @Override
