@@ -1,4 +1,4 @@
-package com.invicto.streamingPlatform.web.config;
+package com.invicto.streaming_platform.web.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

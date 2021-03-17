@@ -1,6 +1,6 @@
-package com.invicto.streamingPlatform.web.config;
+package com.invicto.streaming_platform.web.config;
 
-import com.invicto.streamingPlatform.security.CustomAuthenticationProvider;
+import com.invicto.streaming_platform.security.CustomAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

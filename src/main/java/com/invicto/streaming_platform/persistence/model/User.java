@@ -1,4 +1,4 @@
-package com.invicto.streamingPlatform.persistence.model;
+package com.invicto.streaming_platform.persistence.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 

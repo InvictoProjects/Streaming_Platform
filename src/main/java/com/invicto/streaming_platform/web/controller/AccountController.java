@@ -1,8 +1,8 @@
-package com.invicto.streamingPlatform.web.controller;
+package com.invicto.streaming_platform.web.controller;
 
-import com.invicto.streamingPlatform.web.config.EmailConfig;
-import com.invicto.streamingPlatform.persistence.model.User;
-import com.invicto.streamingPlatform.services.UserService;
+import com.invicto.streaming_platform.web.config.EmailConfig;
+import com.invicto.streaming_platform.persistence.model.User;
+import com.invicto.streaming_platform.services.UserService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;

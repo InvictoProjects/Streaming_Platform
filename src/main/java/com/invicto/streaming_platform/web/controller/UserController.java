@@ -1,15 +1,12 @@
-package com.invicto.streamingPlatform.web.controller;
+package com.invicto.streaming_platform.web.controller;
 
-import com.invicto.streamingPlatform.persistence.model.User;
-import com.invicto.streamingPlatform.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.invicto.streaming_platform.persistence.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/")

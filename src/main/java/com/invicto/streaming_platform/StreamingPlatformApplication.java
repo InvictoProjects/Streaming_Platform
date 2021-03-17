@@ -1,4 +1,4 @@
-package com.invicto.streamingPlatform;
+package com.invicto.streaming_platform;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
