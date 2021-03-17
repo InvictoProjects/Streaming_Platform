@@ -3,6 +3,7 @@ package com.invicto.streaming_platform.services.impl;
 import com.invicto.streaming_platform.persistence.model.User;
 import com.invicto.streaming_platform.persistence.repository.UserRepository;
 import com.invicto.streaming_platform.services.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -56,8 +57,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> findByEmail(String emailAddress) {
-		Optional<User> user = userRepository.findByEmail(emailAddress);
+	public Optional<User> findByEmail(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
 		return user;
 	}
 
@@ -102,4 +103,5 @@ public class UserServiceImpl implements UserService {
 
 		customer.setResetPasswordToken(null);
 		userRepository.save(customer);
-	}}
+	}
+}
