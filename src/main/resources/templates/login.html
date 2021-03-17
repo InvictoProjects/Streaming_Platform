@@ -14,6 +14,10 @@
             <div th:if="${param.error}">
                 <p class="text-danger">Invalid username, email or password</p>
             </div>
+
+            <div th:if="${param.logout}">
+                <p class="text-warning">You have been logged out.</p>
+            </div>
             <div>
                 <p>
                     <label for="username">
@@ -39,9 +43,6 @@
         <div>
             <span>
                 <a th:href="@{/signup}">Sign up</a>
-            </span>
-            <span>
-                <a th:href="@{/forgot_password}">Forgot your password?</a>
             </span>
         </div>
     </div>

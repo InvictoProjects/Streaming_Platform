@@ -5,14 +5,11 @@ import com.invicto.streaming_platform.persistence.model.User;
 import java.util.Optional;
 
 public interface UserService {
-	void createUser(User user);
-	void deleteUser(User user);
-	void updateUser(User user);
-	Optional<User> findByLogin(String login);
-	Optional<User> findByEmail(String email);
-	Optional<User> findById(Long id);
-	Optional<User> findByLoginOrEmail(String input);
-	void updateResetPasswordToken(String token, String email);
-	Optional<User> findByResetPasswordToken(String token);
-	void updatePassword(User customer, String newPassword);
+
+	public void createUser(User user);
+	public void deleteUser(User user);
+	public void updateUser(User user);
+	public Optional<User> findByLogin(String login);
+	public Optional<User> findByEmail(String email);
+	public Optional<User> findById(Long id);
 }

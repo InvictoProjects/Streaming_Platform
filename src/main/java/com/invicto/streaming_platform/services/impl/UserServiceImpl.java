@@ -3,22 +3,18 @@ package com.invicto.streaming_platform.services.impl;
 import com.invicto.streaming_platform.persistence.model.User;
 import com.invicto.streaming_platform.persistence.repository.UserRepository;
 import com.invicto.streaming_platform.services.UserService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
-@Component
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
+
+	public UserServiceImpl(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	@Override
 	public void createUser(User user) {
@@ -66,42 +62,5 @@ public class UserServiceImpl implements UserService {
 	public Optional<User> findById(Long id) {
 		Optional<User> user = userRepository.findById(id);
 		return user;
-	}
-
-	@Override
-	public Optional<User> findByLoginOrEmail(String input) {
-		Pattern emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
-		Matcher matcher = emailPattern.matcher(input);
-		if (matcher.find()) {
-			return userRepository.findByEmail(input);
-		} else {
-			return userRepository.findByLogin(input);
-		}
-	}
-
-	@Override
-	public void updateResetPasswordToken(String token, String email) {
-		Optional<User> optionalUser = userRepository.findByEmail(email);
-		if (optionalUser.isPresent()) {
-			optionalUser.get().setResetPasswordToken(token);
-			userRepository.save(optionalUser.get());
-		} else {
-			//throw new UserNotFoundException("Could not find any customer with the email " + email);
-		}
-	}
-
-	@Override
-	public Optional<User> findByResetPasswordToken(String token) {
-		return userRepository.findByResetPasswordToken(token);
-	}
-
-	@Override
-	public void updatePassword(User customer, String newPassword) {
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String encodedPassword = passwordEncoder.encode(newPassword);
-		customer.setPassword(encodedPassword);
-
-		customer.setResetPasswordToken(null);
-		userRepository.save(customer);
 	}
 }
