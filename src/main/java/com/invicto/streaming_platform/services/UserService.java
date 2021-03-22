@@ -11,8 +11,8 @@ public interface UserService {
 	Optional<User> findByLogin(String login);
 	Optional<User> findByEmail(String email);
 	Optional<User> findById(Long id);
-	Optional<User> findByLoginOrEmail(String input);
+	User findByLoginOrEmail(String input);
 	void updateResetPasswordToken(String token, String email);
-	Optional<User> findByResetPasswordToken(String token);
-	void updatePassword(User customer, String newPassword);
+	User findByResetPasswordToken(String token);
+	void updatePasswordHash(User user, String newPassword);
 }
