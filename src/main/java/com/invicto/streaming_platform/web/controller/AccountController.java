@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -87,34 +88,22 @@ public class AccountController {
 
     @GetMapping("/reset_password")
     public String showResetPasswordForm(@Param(value = "token") String token, Model model) {
-        Optional<User> optionalUser = userService.findByResetPasswordToken(token);
+        User user = userService.findByResetPasswordToken(token);
         model.addAttribute("token", token);
-
-        if (optionalUser.isEmpty()) {
-            model.addAttribute("message", "Invalid Token");
-            return "error";
-        }
-
+        model.addAttribute("message", "Invalid Token");
         return "reset_password";
     }
 
     @PostMapping("/reset_password")
     public String processResetPassword(HttpServletRequest request, Model model) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String token = request.getParameter("token");
-        String password = request.getParameter("password");
+        String password = passwordEncoder.encode(request.getParameter("password"));
 
-        Optional<User> optionalUser = userService.findByResetPasswordToken(token);
+        User user = userService.findByResetPasswordToken(token);
         model.addAttribute("title", "Reset your password");
-
-        if (optionalUser.isEmpty()) {
-            model.addAttribute("message", "Invalid Token");
-            return "message";
-        } else {
-            userService.updatePassword(optionalUser.get(), password);
-
-            model.addAttribute("message", "You have successfully changed your password.");
-        }
-
+        userService.updatePasswordHash(user, password);
+        model.addAttribute("message", "You have successfully changed your password.");
         return "message";
     }
 }

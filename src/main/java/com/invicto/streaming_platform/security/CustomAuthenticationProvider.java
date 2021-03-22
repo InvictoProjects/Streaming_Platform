@@ -22,20 +22,17 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String input = authentication.getName();
-        String password = authentication.getCredentials().toString();
-        Optional<User> optionalUser = userService.findByLoginOrEmail(input);
-        if (optionalUser.isEmpty()) {
-            throw new BadCredentialsException("Unknown user "+input);
-        }
-        if (!password.equals(optionalUser.get().getPassword())) {
-            throw new BadCredentialsException("Bad password");
+        String passwordHash = authentication.getCredentials().toString();
+        User userEntity = userService.findByLoginOrEmail(input);
+        if (!passwordHash.equals(userEntity.getPasswordHash())) {
+            throw new BadCredentialsException("Bad passwordHash");
         }
         UserDetails principal = org.springframework.security.core.userdetails.User.builder()
-                .username(optionalUser.get().getLogin())
-                .password(optionalUser.get().getPassword())
+                .username(userEntity.getLogin())
+                .password(userEntity.getPasswordHash())
                 .roles("USER")
                 .build();
-        return new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(principal, passwordHash, principal.getAuthorities());
     }
 
     @Override
