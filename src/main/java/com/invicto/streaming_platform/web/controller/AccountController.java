@@ -88,14 +88,9 @@ public class AccountController {
 
     @GetMapping("/reset_password")
     public String showResetPasswordForm(@Param(value = "token") String token, Model model) {
-        Optional<User> optionalUser = userService.findByResetPasswordToken(token);
+        User user = userService.findByResetPasswordToken(token);
         model.addAttribute("token", token);
-
-        if (optionalUser.isEmpty()) {
-            model.addAttribute("message", "Invalid Token");
-            return "error";
-        }
-
+        model.addAttribute("message", "Invalid Token");
         return "reset_password";
     }
 
@@ -105,18 +100,10 @@ public class AccountController {
         String token = request.getParameter("token");
         String password = passwordEncoder.encode(request.getParameter("password"));
 
-        Optional<User> optionalUser = userService.findByResetPasswordToken(token);
+        User user = userService.findByResetPasswordToken(token);
         model.addAttribute("title", "Reset your password");
-
-        if (optionalUser.isEmpty()) {
-            model.addAttribute("message", "Invalid Token");
-            return "message";
-        } else {
-            userService.updatePasswordHash(optionalUser.get(), password);
-
-            model.addAttribute("message", "You have successfully changed your password.");
-        }
-
+        userService.updatePasswordHash(user, password);
+        model.addAttribute("message", "You have successfully changed your password.");
         return "message";
     }
 }

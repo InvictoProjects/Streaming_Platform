@@ -73,36 +73,28 @@ public class UserServiceImpl implements UserService {
 	public User findByLoginOrEmail(String input) {
 		Pattern emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 		Matcher matcher = emailPattern.matcher(input);
-		Optional<User> optionalUser;
 		if (matcher.find()) {
-			optionalUser = userRepository.findByEmail(input);
+			return userRepository.findByEmail(input)
+					.orElseThrow(() -> new EntityNotFoundException("User doesn't exist:"+input));
 		} else {
-			optionalUser = userRepository.findByLogin(input);
+			return userRepository.findByLogin(input)
+					.orElseThrow(() -> new EntityNotFoundException("User doesn't exist:"+input));
 		}
-		if (optionalUser.isEmpty()) {
-			throw new EntityNotFoundException("User doesn't exist:"+input);
-		}
-		return optionalUser.get();
 	}
 
 	@Override
 	public void updateResetPasswordToken(String token, String email) {
-		Optional<User> optionalUser = userRepository.findByEmail(email);
-		if (optionalUser.isPresent()) {
-			optionalUser.get().setResetPasswordToken(token);
-			userRepository.save(optionalUser.get());
-		} else {
-			throw new EntityNotFoundException("User doesn't exist:"+email);
-		}
+		User user = userRepository.findByEmail(email)
+				.orElseThrow(() -> new EntityNotFoundException("User doesn't exist:"+email));
+		user.setResetPasswordToken(token);
+		userRepository.save(user);
 	}
 
 	@Override
-	public Optional<User> findByResetPasswordToken(String token) {
-		Optional<User> optionalUser = userRepository.findByResetPasswordToken(token);
-		if (optionalUser.isEmpty()) {
-			throw new EntityNotFoundException("User doesn't exist:"+token);
-		}
-		return optionalUser;
+	public User findByResetPasswordToken(String token) {
+		return userRepository.findByResetPasswordToken(token)
+				.orElseThrow(() -> new EntityNotFoundException("User doesn't exist:"+token));
+
 	}
 
 	@Override

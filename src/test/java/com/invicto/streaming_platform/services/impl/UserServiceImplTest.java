@@ -76,11 +76,11 @@ class UserServiceImplTest {
     @Test
     void findByResetPasswordToken() {
         String token = "12r034gjwojwe9jfsdklw09j";
-        Optional<User> expectedOptionalUser = Optional.of(new User(1L, "roman123", "user@gmail.com",
-                "230d8h34falkfj", LocalDate.of(2000, 2, 2)));
-        when(mockedUserRepository.findByResetPasswordToken(token)).thenReturn(expectedOptionalUser);
-        Optional<User> actualOptionalUser = userService.findByResetPasswordToken(token);
-        assertEquals(expectedOptionalUser, actualOptionalUser);
+        User expectedUser = new User(1L, "roman123", "user@gmail.com",
+                "230d8h34falkfj", LocalDate.of(2000, 2, 2));
+        when(mockedUserRepository.findByResetPasswordToken(token)).thenReturn(Optional.of(expectedUser));
+        User actualUser = userService.findByResetPasswordToken(token);
+        assertEquals(expectedUser, actualUser);
     }
 
     @Test

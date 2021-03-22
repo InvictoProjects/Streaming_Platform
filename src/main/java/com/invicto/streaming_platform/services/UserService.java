@@ -13,6 +13,6 @@ public interface UserService {
 	Optional<User> findById(Long id);
 	User findByLoginOrEmail(String input);
 	void updateResetPasswordToken(String token, String email);
-	Optional<User> findByResetPasswordToken(String token);
+	User findByResetPasswordToken(String token);
 	void updatePasswordHash(User user, String newPassword);
 }
