@@ -6,26 +6,27 @@ import com.invicto.streaming_platform.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-@Component
 public class UserServiceImpl implements UserService {
 
+	private final UserRepository userRepository;
+
 	@Autowired
-	private UserRepository userRepository;
+	public UserServiceImpl(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	@Override
 	public void createUser(User user) {
 		if (userRepository.existsById(user.getId())) {
-
-			// Throw userAlreadyExists exception
-
+			throw new EntityExistsException("User with id" + user.getId() + "is already exists");
 		}
 		userRepository.save(user);
 	}
@@ -64,8 +65,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<User> findById(Long id) {
-		Optional<User> user = userRepository.findById(id);
-		return user;
+		return userRepository.findById(id);
 	}
 
 	@Override
