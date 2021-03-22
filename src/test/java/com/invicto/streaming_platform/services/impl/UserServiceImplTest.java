@@ -27,21 +27,21 @@ class UserServiceImplTest {
     @Test
     void findByLoginOrEmailWithLogin() {
         String login = "karl201";
-        Optional<User> expectedOptionalUser = Optional.of(new User(1L, "karl201", "user@gmail.com",
-                "230d8h34falkfj", LocalDate.of(2000, 2, 2)));
-        when(mockedUserRepository.findByLogin(login)).thenReturn(expectedOptionalUser);
-        Optional<User> actualOptionalUser = userService.findByLoginOrEmail(login);
-        assertEquals(expectedOptionalUser, actualOptionalUser);
+        User expectedUser = new User(1L, "karl201", "user@gmail.com",
+                "230d8h34falkfj", LocalDate.of(2000, 2, 2));
+        when(mockedUserRepository.findByLogin(login)).thenReturn(Optional.of(expectedUser));
+        User actualUser = userService.findByLoginOrEmail(login);
+        assertEquals(expectedUser, actualUser);
     }
 
     @Test
     void findByLoginOrEmailWithEmail() {
         String email = "karl201@gmail.com";
-        Optional<User> expectedOptionalUser = Optional.of(new User(1L, "karl201", "karl201@gmail.com",
-                "230d8h34falkfj", LocalDate.of(2000, 2, 2)));
-        when(mockedUserRepository.findByEmail(email)).thenReturn(expectedOptionalUser);
-        Optional<User> actualOptionalUser = userService.findByLoginOrEmail(email);
-        assertEquals(expectedOptionalUser, actualOptionalUser);
+        User expectedUser = new User(1L, "karl201", "karl201@gmail.com",
+                "230d8h34falkfj", LocalDate.of(2000, 2, 2));
+        when(mockedUserRepository.findByEmail(email)).thenReturn(Optional.of(expectedUser));
+        User actualUser = userService.findByLoginOrEmail(email);
+        assertEquals(expectedUser, actualUser);
     }
 
     @Test

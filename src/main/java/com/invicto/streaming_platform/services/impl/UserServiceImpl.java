@@ -3,8 +3,10 @@ package com.invicto.streaming_platform.services.impl;
 import com.invicto.streaming_platform.persistence.model.User;
 import com.invicto.streaming_platform.persistence.repository.UserRepository;
 import com.invicto.streaming_platform.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Access;
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -15,6 +17,7 @@ public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
 
+	@Autowired
 	public UserServiceImpl(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
@@ -68,7 +71,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> findByLoginOrEmail(String input) {
+	public User findByLoginOrEmail(String input) {
 		Pattern emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 		Matcher matcher = emailPattern.matcher(input);
 		Optional<User> optionalUser;
@@ -80,7 +83,7 @@ public class UserServiceImpl implements UserService {
 		if (optionalUser.isEmpty()) {
 			throw new EntityNotFoundException("User doesn't exist:"+input);
 		}
-		return optionalUser;
+		return optionalUser.get();
 	}
 
 	@Override
