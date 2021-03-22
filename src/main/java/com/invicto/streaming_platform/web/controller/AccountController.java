@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,8 +101,9 @@ public class AccountController {
 
     @PostMapping("/reset_password")
     public String processResetPassword(HttpServletRequest request, Model model) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String token = request.getParameter("token");
-        String password = request.getParameter("password");
+        String password = passwordEncoder.encode(request.getParameter("password"));
 
         Optional<User> optionalUser = userService.findByResetPasswordToken(token);
         model.addAttribute("title", "Reset your password");
@@ -110,7 +112,7 @@ public class AccountController {
             model.addAttribute("message", "Invalid Token");
             return "message";
         } else {
-            userService.updatePassword(optionalUser.get(), password);
+            userService.updatePasswordHash(optionalUser.get(), password);
 
             model.addAttribute("message", "You have successfully changed your password.");
         }

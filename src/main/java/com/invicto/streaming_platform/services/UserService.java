@@ -14,5 +14,5 @@ public interface UserService {
 	Optional<User> findByLoginOrEmail(String input);
 	void updateResetPasswordToken(String token, String email);
 	Optional<User> findByResetPasswordToken(String token);
-	void updatePassword(User customer, String newPassword);
+	void updatePasswordHash(User user, String newPassword);
 }
