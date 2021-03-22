@@ -4,6 +4,7 @@ import com.invicto.streaming_platform.persistence.model.User;
 import com.invicto.streaming_platform.persistence.repository.UserRepository;
 import com.invicto.streaming_platform.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -32,11 +33,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(User user) {
-		if (!userRepository.existsById(user.getId())) {
-
-			// Throw userIsNotExist exception
-
+	public void deleteUser(@NonNull User user) {
+		if (user.getId() == null) {
+			throw new IllegalArgumentException("User id must not be null");
+		} else if (!userRepository.existsById(user.getId())) {
+			throw new EntityNotFoundException(String.format("User with id %s does not exist", user.getId()));
 		}
 		userRepository.delete(user);
 	}
