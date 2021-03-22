@@ -24,11 +24,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void createUser(User user) {
+	public User createUser(User user) {
 		if (userRepository.existsById(user.getId())) {
 			throw new EntityExistsException("User with id" + user.getId() + "is already exists");
 		}
-		userRepository.save(user);
+		return userRepository.save(user);
 	}
 
 	@Override

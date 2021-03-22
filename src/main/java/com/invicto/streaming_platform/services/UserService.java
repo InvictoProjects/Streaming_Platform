@@ -5,7 +5,7 @@ import com.invicto.streaming_platform.persistence.model.User;
 import java.util.Optional;
 
 public interface UserService {
-	void createUser(User user);
+	User createUser(User user);
 	void deleteUser(User user);
 	void updateUser(User user);
 	Optional<User> findByLogin(String login);
