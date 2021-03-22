@@ -9,6 +9,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,13 +44,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUser(User user) {
+	public List<User> findAll() {
+		List<User> users = new ArrayList<>();
+		userRepository.findAll().forEach(users::add);
+		return users;
+	}
+
+	@Override
+	public User updateUser(User user) {
 		if (!userRepository.existsById(user.getId())) {
-
-			// Throw userIsNotExist exception
-
+			throw new EntityNotFoundException("User with id" + user.getId() + "does not exist");
 		}
 		userRepository.save(user);
+		return user;
 	}
 
 	@Override
