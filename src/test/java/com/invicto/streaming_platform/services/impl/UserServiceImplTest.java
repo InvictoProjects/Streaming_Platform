@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UserServiceImplTest {
@@ -22,6 +22,65 @@ class UserServiceImplTest {
     void setUp() {
         mockedUserRepository = mock(UserRepository.class);
         userService = new UserServiceImpl(mockedUserRepository);
+    }
+
+    @Test
+    void whenCreateNewUser_thenReturnUser() {
+        User user = new User(1L, "testLogin", "test@gmail.com",
+                "testPasswordHash", LocalDate.now());
+
+        when(mockedUserRepository.existsById(user.getId())).thenReturn(false);
+        when(mockedUserRepository.save(any(User.class))).thenReturn(user);
+        User created = userService.createUser(user);
+
+        assertEquals(user, created);
+        verify(mockedUserRepository, times(1)).save(user);
+    }
+
+    @Test
+    void whenCreateExistingUser_thenEntityExistsException() {
+        User user = new User(1L, "testLogin", "test@gmail.com",
+                "testPasswordHash", LocalDate.now());
+
+        when(mockedUserRepository.existsById(user.getId())).thenReturn(true);
+
+        assertThrows(EntityExistsException.class, () -> userService.createUser(user));
+    }
+
+    @Test
+    void whenCreateUserWithoutId_thenReturnUserWithId() {
+        User user = new User("testLogin", "test@gmail.com",
+                "testPasswordHash", LocalDate.now());
+
+        when(mockedUserRepository.existsById(null)).thenThrow(new IllegalArgumentException());
+        when(mockedUserRepository.save(any(User.class))).thenReturn(new User(1L, user.getLogin(), user.getEmail(),
+                user.getPasswordHash(), user.getDateOfBirth()));
+        User created = userService.createUser(user);
+
+        assertNotNull(created.getId());
+        verify(mockedUserRepository, times(1)).save(user);
+    }
+
+    @Test
+    void whenFindByIdExistingUser_thenReturnOptionalPresent() {
+        User user = new User(1L, "testLogin", "test@gmail.com",
+                "testPasswordHash", LocalDate.now());
+
+        when(mockedUserRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        Optional<User> found = userService.findById(1L);
+
+        assertTrue(found.isPresent());
+        assertEquals(user, found.get());
+        verify(mockedUserRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void whenFindByIdNotExistingUser_thenReturnOptionalEmpty() {
+        when(mockedUserRepository.findById(1L)).thenReturn(Optional.empty());
+        Optional<User> found = userService.findById(1L);
+
+        assertTrue(found.isEmpty());
+        verify(mockedUserRepository, times(1)).findById(1L);
     }
 
     @Test
