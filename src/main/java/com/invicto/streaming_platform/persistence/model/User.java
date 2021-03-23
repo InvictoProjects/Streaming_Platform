@@ -25,6 +25,13 @@ public class User {
 
     public User() {}
 
+    public User(String login, String email, String passwordHash, LocalDate dateOfBirth) {
+        this.login = login;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.dateOfBirth = dateOfBirth;
+    }
+
     public User(Long id, String login, String email, String passwordHash, LocalDate dateOfBirth) {
         this.id = id;
         this.login = login;

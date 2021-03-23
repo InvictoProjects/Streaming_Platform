@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,13 +26,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void createUser(User user) {
-		if (userRepository.existsById(user.getId())) {
-
-			// Throw userAlreadyExists exception
-
+	public User createUser(User user) {
+		if (user.getId() != null && userRepository.existsById(user.getId())) {
+			throw new EntityExistsException("User with id" + user.getId() + "is already exists");
 		}
-		userRepository.save(user);
+		return userRepository.save(user);
 	}
 
 	@Override
@@ -43,19 +44,23 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUser(User user) {
+	public List<User> findAll() {
+		List<User> users = new ArrayList<>();
+		userRepository.findAll().forEach(users::add);
+		return users;
+	}
+
+	@Override
+	public User updateUser(User user) {
 		if (!userRepository.existsById(user.getId())) {
-
-			// Throw userIsNotExist exception
-
+			throw new EntityNotFoundException("User with id" + user.getId() + "does not exist");
 		}
-		userRepository.save(user);
+		return userRepository.save(user);
 	}
 
 	@Override
 	public Optional<User> findByLogin(String login) {
-		Optional<User> user = userRepository.findByLogin(login);
-		return user;
+		return userRepository.findByLogin(login);
 	}
 
 	@Override
@@ -72,8 +77,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<User> findById(Long id) {
-		Optional<User> user = userRepository.findById(id);
-		return user;
+		return userRepository.findById(id);
 	}
 
 	@Override
