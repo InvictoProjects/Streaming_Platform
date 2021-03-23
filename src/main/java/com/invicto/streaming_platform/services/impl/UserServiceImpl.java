@@ -55,8 +55,7 @@ public class UserServiceImpl implements UserService {
 		if (!userRepository.existsById(user.getId())) {
 			throw new EntityNotFoundException("User with id" + user.getId() + "does not exist");
 		}
-		userRepository.save(user);
-		return user;
+		return userRepository.save(user);
 	}
 
 	@Override
