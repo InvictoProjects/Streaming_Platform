@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-	void createUser(User user);
+	User createUser(User user);
 	void deleteUser(User user);
 	User updateUser(User user);
 	List<User> findAll();
 	Optional<User> findByLogin(String login);
-	Optional<User> findByEmail(String email);
+	User findByEmail(String email);
 	Optional<User> findById(Long id);
 	User findByLoginOrEmail(String input);
 	void updateResetPasswordToken(String token, String email);

@@ -4,8 +4,10 @@ import com.invicto.streaming_platform.persistence.model.User;
 import com.invicto.streaming_platform.persistence.repository.UserRepository;
 import com.invicto.streaming_platform.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,21 +26,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void createUser(User user) {
-		if (userRepository.existsById(user.getId())) {
-
-			// Throw userAlreadyExists exception
-
+	public User createUser(User user) {
+		if (user.getId() != null && userRepository.existsById(user.getId())) {
+			throw new EntityExistsException("User with id" + user.getId() + "is already exists");
 		}
-		userRepository.save(user);
+		return userRepository.save(user);
 	}
 
 	@Override
-	public void deleteUser(User user) {
-		if (!userRepository.existsById(user.getId())) {
-
-			// Throw userIsNotExist exception
-
+	public void deleteUser(@NonNull User user) {
+		if (user.getId() == null) {
+			throw new IllegalArgumentException("User id must not be null");
+		} else if (!userRepository.existsById(user.getId())) {
+			throw new EntityNotFoundException(String.format("User with id %s does not exist", user.getId()));
 		}
 		userRepository.delete(user);
 	}
@@ -64,15 +64,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> findByEmail(String email) {
-		Optional<User> user = userRepository.findByEmail(email);
-		return user;
+	public User findByEmail(@NonNull String email) {
+		Pattern emailPattern = Pattern.compile("^[\\w-]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+		Matcher matcher = emailPattern.matcher(email);
+		if (!matcher.find()) {
+			throw new IllegalArgumentException(String.format("Email %s is incorrect", email));
+		}
+		return userRepository.findByEmail(email)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("User with email %s does not exist", email)));
 	}
+
 
 	@Override
 	public Optional<User> findById(Long id) {
-		Optional<User> user = userRepository.findById(id);
-		return user;
+		return userRepository.findById(id);
 	}
 
 	@Override
