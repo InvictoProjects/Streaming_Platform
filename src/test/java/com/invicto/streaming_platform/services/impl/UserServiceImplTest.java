@@ -46,6 +46,98 @@ class UserServiceImplTest {
     }
 
     @Test
+    void updateUser() {
+        User user = new User(1L, "login", "adress@gmail.com",
+                "passwordHash", LocalDate.now());
+
+        when(mockedUserRepository.save(user)).thenReturn(user);
+        when(mockedUserRepository.existsById(user.getId())).thenReturn(true);
+
+        user.setLogin("updatedLogin");
+        user.setEmail("updated@gmail.com");
+        user.setPasswordHash("updatedPasswordHash");
+        user.setDateOfBirth(LocalDate.of(2021, 3, 1));
+
+        User updatedUser = userService.updateUser(user);
+        assertEquals(user, updatedUser);
+
+        verify(mockedUserRepository, times(1)).save(user);
+    }
+
+    @Test
+    void updateOnlyLogin() {
+        User user = new User(1L, "login", "adress@gmail.com",
+                "passwordHash", LocalDate.now());
+
+        when(mockedUserRepository.save(user)).thenReturn(user);
+        when(mockedUserRepository.existsById(user.getId())).thenReturn(true);
+
+        user.setLogin("updatedLogin");
+
+        User updatedUser = userService.updateUser(user);
+        assertEquals(user, updatedUser);
+
+        verify(mockedUserRepository, times(1)).save(user);
+    }
+
+    @Test
+    void updateOnlyEmail() {
+        User user = new User(1L, "login", "adress@gmail.com",
+                "passwordHash", LocalDate.now());
+
+        when(mockedUserRepository.save(user)).thenReturn(user);
+        when(mockedUserRepository.existsById(user.getId())).thenReturn(true);
+
+        user.setEmail("updated@gmail.com");
+
+        User updatedUser = userService.updateUser(user);
+        assertEquals(user, updatedUser);
+
+        verify(mockedUserRepository, times(1)).save(user);
+    }
+
+    @Test
+    void updateOnlyPasswordHash() {
+        User user = new User(1L, "login", "adress@gmail.com",
+                "passwordHash", LocalDate.now());
+
+        when(mockedUserRepository.save(user)).thenReturn(user);
+        when(mockedUserRepository.existsById(user.getId())).thenReturn(true);
+
+        user.setPasswordHash("updatedPasswordHash");
+
+        User updatedUser = userService.updateUser(user);
+        assertEquals(user, updatedUser);
+
+        verify(mockedUserRepository, times(1)).save(user);
+    }
+
+    @Test
+    void updateOnlyDateOfBirth() {
+        User user = new User(1L, "login", "adress@gmail.com",
+                "passwordHash", LocalDate.now());
+
+        when(mockedUserRepository.save(user)).thenReturn(user);
+        when(mockedUserRepository.existsById(user.getId())).thenReturn(true);
+
+        user.setDateOfBirth(LocalDate.of(2021, 3, 1));
+
+        User updatedUser = userService.updateUser(user);
+        assertEquals(user, updatedUser);
+
+        verify(mockedUserRepository, times(1)).save(user);
+    }
+
+    @Test
+    void updateNotExistingUser() {
+        User user = new User();
+
+        when(mockedUserRepository.save(user)).thenThrow(EntityNotFoundException.class);
+
+        assertThrows(EntityNotFoundException.class, () -> userService.updateUser(user));
+    }
+
+    @Test
     void findByLogin() {
         User user = new User(1L, "testLogin", "test@gmail.com",
                 "testPasswordHash", LocalDate.now());
