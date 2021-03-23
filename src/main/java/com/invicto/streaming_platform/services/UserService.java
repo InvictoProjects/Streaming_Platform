@@ -9,7 +9,7 @@ public interface UserService {
 	void deleteUser(User user);
 	void updateUser(User user);
 	Optional<User> findByLogin(String login);
-	Optional<User> findByEmail(String email);
+	User findByEmail(String email);
 	Optional<User> findById(Long id);
 	User findByLoginOrEmail(String input);
 	void updateResetPasswordToken(String token, String email);
