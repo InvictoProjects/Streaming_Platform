@@ -416,7 +416,7 @@ class UserServiceImplTest {
     void findByEmailThrowsExceptionIfEmailDoesNotExist() {
         String notExistingEmail = "justEmail12@gmail.com";
 
-        when(mockedUserRepository.findByEmail(notExistingEmail)).thenThrow(EntityNotFoundException.class);
+        when(mockedUserRepository.findByEmail(notExistingEmail)).thenReturn(Optional.empty());
 
         Assertions.assertThrows(EntityNotFoundException.class, () -> userService.findByEmail(notExistingEmail));
     }
