@@ -6,11 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UserServiceImplTest {
@@ -22,6 +23,49 @@ class UserServiceImplTest {
     void setUp() {
         mockedUserRepository = mock(UserRepository.class);
         userService = new UserServiceImpl(mockedUserRepository);
+    }
+
+    @Test
+    void findAll() {
+        User user1 = new User();
+        User user2 = new User();
+        User user3 = new User();
+
+        List<User> users = new ArrayList<>();
+
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
+
+        when(mockedUserRepository.findAll()).thenReturn(users);
+
+        List<User> foundUsers = userService.findAll();
+
+        assertEquals(users, foundUsers);
+        verify(mockedUserRepository, times(1)).findAll();
+    }
+
+    @Test
+    void findByLogin() {
+        User user = new User(1L, "testLogin", "test@gmail.com",
+                "testPasswordHash", LocalDate.now());
+        String login = user.getLogin();
+
+        when(mockedUserRepository.findByLogin(login)).thenReturn(Optional.of(user));
+
+        Optional<User> foundUser = userService.findByLogin(login);
+
+        assertTrue(foundUser.isPresent());
+        assertEquals(user, foundUser.get());
+        verify(mockedUserRepository, times(1)).findByLogin(login);
+    }
+
+    @Test
+    void findByLoginNotExistingUser() {
+        String login = "login";
+        Optional<User> found = mockedUserRepository.findByLogin(login);
+
+        assertTrue(found.isEmpty());
     }
 
     @Test
