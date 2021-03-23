@@ -6,6 +6,7 @@ import com.invicto.streaming_platform.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -22,13 +23,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void createUser(User user) {
-		if (userRepository.existsById(user.getId())) {
-
-			// Throw userAlreadyExists exception
-
+	public User createUser(User user) {
+		if (user.getId() != null && userRepository.existsById(user.getId())) {
+			throw new EntityExistsException("User with id" + user.getId() + "is already exists");
 		}
-		userRepository.save(user);
+		return userRepository.save(user);
 	}
 
 	@Override
@@ -65,8 +64,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<User> findById(Long id) {
-		Optional<User> user = userRepository.findById(id);
-		return user;
+		return userRepository.findById(id);
 	}
 
 	@Override
