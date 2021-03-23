@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,19 +43,23 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUser(User user) {
+	public List<User> findAll() {
+		List<User> users = new ArrayList<>();
+		userRepository.findAll().forEach(users::add);
+		return users;
+	}
+
+	@Override
+	public User updateUser(User user) {
 		if (!userRepository.existsById(user.getId())) {
-
-			// Throw userIsNotExist exception
-
+			throw new EntityNotFoundException("User with id" + user.getId() + "does not exist");
 		}
-		userRepository.save(user);
+		return userRepository.save(user);
 	}
 
 	@Override
 	public Optional<User> findByLogin(String login) {
-		Optional<User> user = userRepository.findByLogin(login);
-		return user;
+		return userRepository.findByLogin(login);
 	}
 
 	@Override
