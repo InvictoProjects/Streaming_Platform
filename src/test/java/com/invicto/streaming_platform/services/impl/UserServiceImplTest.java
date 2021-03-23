@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.Optional;
-import javax.persistence.EntityNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -185,5 +185,42 @@ class UserServiceImplTest {
         Assertions.assertThrows(EntityNotFoundException.class, () -> {
             userService.deleteUser(user);
         });
+    }
+
+    @Test
+    void findByEmail() {
+        String existingEmail = "existingEmail@ukr.net";
+
+        User user = new User();
+        user.setId(0L);
+        user.setEmail(existingEmail);
+
+        when(mockedUserRepository.findByEmail(existingEmail)).thenReturn(Optional.of(user));
+
+        User foundUser = userService.findByEmail(existingEmail);
+
+        assertEquals(user.getId(), foundUser.getId());
+        assertEquals(user.getEmail(), foundUser.getEmail());
+        verify(mockedUserRepository, times(1)).findByEmail(existingEmail);
+    }
+
+    @Test
+    void findByEmailThrowsExceptionIfEmailIsIncorrect() {
+        String incorrectEmail = "1234";
+        Assertions.assertThrows(IllegalArgumentException.class, () -> userService.findByEmail(incorrectEmail));
+    }
+
+    @Test
+    void findByEmailThrowsExceptionIfEmailIsNull() {
+        Assertions.assertThrows(NullPointerException.class, () -> userService.findByEmail(null));
+    }
+
+    @Test
+    void findByEmailThrowsExceptionIfEmailDoesNotExist() {
+        String notExistingEmail = "justEmail12@gmail.com";
+
+        when(mockedUserRepository.findByEmail(notExistingEmail)).thenThrow(EntityNotFoundException.class);
+
+        Assertions.assertThrows(EntityNotFoundException.class, () -> userService.findByEmail(notExistingEmail));
     }
 }
