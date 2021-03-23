@@ -243,7 +243,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findByLoginOrEmailEntityNotExistException() {
+    void findByLoginOrEmailThrowsEntityNotExistException() {
         String loginOrEmail = "12df";
         when(mockedUserRepository.findByResetPasswordToken(loginOrEmail)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> userService.findByLoginOrEmail(loginOrEmail));
@@ -264,7 +264,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void updateResetPasswordTokenEntityNotExistException() {
+    void updateResetPasswordTokenThrowsEntityNotExistException() {
         String newToken = "12023oihasdf0923jfsdsscj";
         String email = "13faisl@ukr.net";
         when(mockedUserRepository.findByEmail(email)).thenReturn(Optional.empty());
@@ -282,7 +282,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findByResetPasswordTokenEntityNotExistException() {
+    void findByResetPasswordTokenThrowsEntityNotExistException() {
         String token = "12r034gjwojwejjjdklw09j";
         when(mockedUserRepository.findByResetPasswordToken(token)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> userService.findByResetPasswordToken(token));
@@ -299,7 +299,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void updatePasswordHashEntityNotExistException() {
+    void updatePasswordHashThrowsEntityNotExistExceptionIdUserNull() {
         String newPasswordHash = "lkjlkhpihpojipojoih";
         assertThrows(EntityNotFoundException.class, () -> userService.updatePasswordHash(null, newPasswordHash));
     }
