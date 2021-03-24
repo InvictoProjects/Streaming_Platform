@@ -2,15 +2,16 @@ package com.invicto.streaming_platform.services.impl;
 
 import com.invicto.streaming_platform.persistence.model.User;
 import com.invicto.streaming_platform.persistence.repository.UserRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.EntityExistsException;
+import java.time.LocalDate;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UserServiceImplTest {
@@ -22,6 +23,201 @@ class UserServiceImplTest {
     void setUp() {
         mockedUserRepository = mock(UserRepository.class);
         userService = new UserServiceImpl(mockedUserRepository);
+    }
+
+    @Test
+    void whenCreateNewUser_thenReturnUser() {
+        User user = new User(1L, "testLogin", "test@gmail.com",
+                "testPasswordHash", LocalDate.now());
+
+        when(mockedUserRepository.existsById(user.getId())).thenReturn(false);
+        when(mockedUserRepository.save(any(User.class))).thenReturn(user);
+        User created = userService.createUser(user);
+
+        assertEquals(user, created);
+        verify(mockedUserRepository, times(1)).save(user);
+    }
+
+    @Test
+    void whenCreateExistingUser_thenEntityExistsException() {
+        User user = new User(1L, "testLogin", "test@gmail.com",
+                "testPasswordHash", LocalDate.now());
+
+        when(mockedUserRepository.existsById(user.getId())).thenReturn(true);
+
+        assertThrows(EntityExistsException.class, () -> userService.createUser(user));
+    }
+
+    @Test
+    void whenCreateUserWithoutId_thenReturnUserWithId() {
+        User user = new User("testLogin", "test@gmail.com",
+                "testPasswordHash", LocalDate.now());
+
+        when(mockedUserRepository.existsById(null)).thenThrow(new IllegalArgumentException());
+        when(mockedUserRepository.save(any(User.class))).thenReturn(new User(1L, user.getLogin(), user.getEmail(),
+                user.getPasswordHash(), user.getDateOfBirth()));
+        User created = userService.createUser(user);
+
+        assertNotNull(created.getId());
+        verify(mockedUserRepository, times(1)).save(user);
+    }
+
+    @Test
+    void updateOnlyLogin() {
+        User user = new User(1L, "login", "adress@gmail.com",
+                "passwordHash", LocalDate.now());
+
+        when(mockedUserRepository.save(user)).thenReturn(user);
+        when(mockedUserRepository.existsById(user.getId())).thenReturn(true);
+
+        user.setLogin("updatedLogin");
+
+        User updatedUser = userService.updateUser(user);
+        assertEquals(user, updatedUser);
+
+        verify(mockedUserRepository, times(1)).save(user);
+    }
+
+    @Test
+    void updateOnlyEmail() {
+        User user = new User(1L, "login", "adress@gmail.com",
+                "passwordHash", LocalDate.now());
+
+        when(mockedUserRepository.save(user)).thenReturn(user);
+        when(mockedUserRepository.existsById(user.getId())).thenReturn(true);
+
+        user.setEmail("updated@gmail.com");
+
+        User updatedUser = userService.updateUser(user);
+        assertEquals(user, updatedUser);
+
+        verify(mockedUserRepository, times(1)).save(user);
+    }
+
+    @Test
+    void updateOnlyPasswordHash() {
+        User user = new User(1L, "login", "adress@gmail.com",
+                "passwordHash", LocalDate.now());
+
+        when(mockedUserRepository.save(user)).thenReturn(user);
+        when(mockedUserRepository.existsById(user.getId())).thenReturn(true);
+
+        user.setPasswordHash("updatedPasswordHash");
+
+        User updatedUser = userService.updateUser(user);
+        assertEquals(user, updatedUser);
+
+        verify(mockedUserRepository, times(1)).save(user);
+    }
+
+    @Test
+    void whenFindByIdExistingUser_thenReturnOptionalPresent() {
+        User user = new User(1L, "testLogin", "test@gmail.com",
+                "testPasswordHash", LocalDate.now());
+
+        when(mockedUserRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        Optional<User> found = userService.findById(1L);
+
+        assertTrue(found.isPresent());
+        assertEquals(user, found.get());
+        verify(mockedUserRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void whenFindByIdNotExistingUser_thenReturnOptionalEmpty() {
+        when(mockedUserRepository.findById(1L)).thenReturn(Optional.empty());
+        Optional<User> found = userService.findById(1L);
+
+        assertTrue(found.isEmpty());
+        verify(mockedUserRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void updateOnlyDateOfBirth() {
+        User user = new User(1L, "login", "adress@gmail.com",
+                "passwordHash", LocalDate.now());
+
+        when(mockedUserRepository.save(user)).thenReturn(user);
+        when(mockedUserRepository.existsById(user.getId())).thenReturn(true);
+
+        user.setDateOfBirth(LocalDate.of(2021, 3, 1));
+
+        User updatedUser = userService.updateUser(user);
+        assertEquals(user, updatedUser);
+
+        verify(mockedUserRepository, times(1)).save(user);
+    }
+
+    @Test
+    void updateNotExistingUser() {
+        User user = new User();
+
+        when(mockedUserRepository.save(user)).thenThrow(EntityNotFoundException.class);
+
+        assertThrows(EntityNotFoundException.class, () -> userService.updateUser(user));
+    }
+
+    @Test
+    void findByLogin() {
+        User user = new User(1L, "testLogin", "test@gmail.com",
+                "testPasswordHash", LocalDate.now());
+        String login = user.getLogin();
+
+        when(mockedUserRepository.findByLogin(login)).thenReturn(Optional.of(user));
+
+        Optional<User> foundUser = userService.findByLogin(login);
+
+        assertTrue(foundUser.isPresent());
+        assertEquals(user, foundUser.get());
+        verify(mockedUserRepository, times(1)).findByLogin(login);
+    }
+
+    @Test
+    void findByLoginNotExistingUser() {
+        String login = "login";
+        Optional<User> found = mockedUserRepository.findByLogin(login);
+
+        assertTrue(found.isEmpty());
+    }
+    
+    @Test  
+    void findAll() {
+        User user1 = new User();
+        User user2 = new User();
+        User user3 = new User();
+
+        List<User> users = new ArrayList<>();
+
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
+
+        when(mockedUserRepository.findAll()).thenReturn(users);
+
+        List<User> foundUsers = userService.findAll();
+
+        assertEquals(users, foundUsers);
+        verify(mockedUserRepository, times(1)).findAll();
+    }
+
+    @Test
+    void updateUser() {
+        User user = new User(1L, "login", "adress@gmail.com",
+                "passwordHash", LocalDate.now());
+
+        when(mockedUserRepository.save(user)).thenReturn(user);
+        when(mockedUserRepository.existsById(user.getId())).thenReturn(true);
+
+        user.setLogin("updatedLogin");
+        user.setEmail("updated@gmail.com");
+        user.setPasswordHash("updatedPasswordHash");
+        user.setDateOfBirth(LocalDate.of(2021, 3, 1));
+
+        User updatedUser = userService.updateUser(user);
+        assertEquals(user, updatedUser);
+
+
+        verify(mockedUserRepository, times(1)).save(user);
     }
 
     @Test
@@ -45,7 +241,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findByLoginOrEmailEntityNotExistException() {
+    void findByLoginOrEmailThrowsEntityNotExistException() {
         String loginOrEmail = "12df";
         when(mockedUserRepository.findByResetPasswordToken(loginOrEmail)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> userService.findByLoginOrEmail(loginOrEmail));
@@ -62,11 +258,11 @@ class UserServiceImplTest {
         when(mockedUserRepository.findByEmail(email)).thenReturn(testOptionalUser);
         userService.updateResetPasswordToken(newToken, email);
         assertEquals(newToken, user.getResetPasswordToken());
-        verify(mockedUserRepository, timeout(1)).save(testOptionalUser.get());
+        verify(mockedUserRepository, times(1)).save(testOptionalUser.get());
     }
 
     @Test
-    void updateResetPasswordTokenEntityNotExistException() {
+    void updateResetPasswordTokenThrowsEntityNotExistException() {
         String newToken = "12023oihasdf0923jfsdsscj";
         String email = "13faisl@ukr.net";
         when(mockedUserRepository.findByEmail(email)).thenReturn(Optional.empty());
@@ -84,7 +280,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findByResetPasswordTokenEntityNotExistException() {
+    void findByResetPasswordTokenThrowsEntityNotExistException() {
         String token = "12r034gjwojwejjjdklw09j";
         when(mockedUserRepository.findByResetPasswordToken(token)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> userService.findByResetPasswordToken(token));
@@ -101,8 +297,125 @@ class UserServiceImplTest {
     }
 
     @Test
-    void updatePasswordHashEntityNotExistException() {
+    void updatePasswordHashThrowsEntityNotExistExceptionIdUserNull() {
         String newPasswordHash = "lkjlkhpihpojipojoih";
         assertThrows(EntityNotFoundException.class, () -> userService.updatePasswordHash(null, newPasswordHash));
+    }
+
+    @Test
+    void deleteUser() {
+        User user = new User();
+        LocalDate dateOfBirth = LocalDate.now();
+
+        user.setDateOfBirth(dateOfBirth);
+        user.setId(1L);
+        user.setEmail("user@gmail.com");
+        user.setLogin("userLogin");
+        user.setPasswordHash("123456");
+
+        when(mockedUserRepository.existsById(1L)).thenReturn(true);
+        userService.deleteUser(user);
+
+        verify(mockedUserRepository, times(1)).delete(user);
+    }
+
+    @Test
+    void deleteUserWithoutDateOfBirth() {
+        User user = new User();
+
+        user.setId(2L);
+        user.setLogin("123LoginWithNumbers");
+        user.setEmail("user123@gmail.com");
+        user.setPasswordHash("user123");
+
+        when(mockedUserRepository.existsById(2L)).thenReturn(true);
+        userService.deleteUser(user);
+
+        verify(mockedUserRepository, times(1)).delete(user);
+    }
+
+    @Test
+    void deleteUserWithoutPassword() {
+        User user = new User();
+        LocalDate dateOfBirth = LocalDate.now();
+
+        user.setDateOfBirth(dateOfBirth);
+        user.setId(3L);
+        user.setLogin("user2Login");
+        user.setEmail("user2@gmail.com");
+
+        when(mockedUserRepository.existsById(3L)).thenReturn(true);
+        userService.deleteUser(user);
+
+        verify(mockedUserRepository, times(1)).delete(user);
+    }
+
+    @Test
+    void deleteUserWithOnlyId() {
+        User user = new User();
+        user.setId(4L);
+
+        when(mockedUserRepository.existsById(4L)).thenReturn(true);
+        userService.deleteUser(user);
+
+        verify(mockedUserRepository, times(1)).delete(user);
+    }
+
+    @Test
+    void deleteUserThrowsExceptionIfIdNull() {
+        User user = new User();
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            userService.deleteUser(user);
+        });
+    }
+
+    @Test
+    void deleteUserThrowsExceptionIfIdDoesNotExist() {
+        User user = new User();
+        user.setId(5L);
+
+        when(mockedUserRepository.existsById(5L)).thenReturn(false);
+
+        Assertions.assertThrows(EntityNotFoundException.class, () -> {
+            userService.deleteUser(user);
+        });
+    }
+
+    @Test
+    void findByEmail() {
+        String existingEmail = "existingEmail@ukr.net";
+
+        User user = new User();
+        user.setId(0L);
+        user.setEmail(existingEmail);
+
+        when(mockedUserRepository.findByEmail(existingEmail)).thenReturn(Optional.of(user));
+
+        User foundUser = userService.findByEmail(existingEmail);
+
+        assertEquals(user.getId(), foundUser.getId());
+        assertEquals(user.getEmail(), foundUser.getEmail());
+        verify(mockedUserRepository, times(1)).findByEmail(existingEmail);
+    }
+
+    @Test
+    void findByEmailThrowsExceptionIfEmailIsIncorrect() {
+        String incorrectEmail = "1234";
+        Assertions.assertThrows(IllegalArgumentException.class, () -> userService.findByEmail(incorrectEmail));
+    }
+
+    @Test
+    void findByEmailThrowsExceptionIfEmailIsNull() {
+        Assertions.assertThrows(NullPointerException.class, () -> userService.findByEmail(null));
+    }
+
+    @Test
+    void findByEmailThrowsExceptionIfEmailDoesNotExist() {
+        String notExistingEmail = "justEmail12@gmail.com";
+
+        when(mockedUserRepository.findByEmail(notExistingEmail)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(EntityNotFoundException.class, () -> userService.findByEmail(notExistingEmail));
     }
 }
