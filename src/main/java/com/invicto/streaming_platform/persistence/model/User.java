@@ -2,13 +2,11 @@ package com.invicto.streaming_platform.persistence.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "Users")
 public class User {
 
     @Id
@@ -17,10 +15,15 @@ public class User {
 
     private String login;
     private String email;
+
+    @Column(name = "password_hash")
     private String passwordHash;
+
+    @Column(name = "reset_psw_token")
     private String resetPasswordToken;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
     public User() {}
