@@ -3,6 +3,7 @@ package com.invicto.streaming_platform.web.controller;
 import com.invicto.streaming_platform.persistence.model.User;
 import com.invicto.streaming_platform.services.UserService;
 import com.invicto.streaming_platform.web.dto.UserDto;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,9 +20,12 @@ import javax.validation.Valid;
 public class UserController {
 
     private UserService userService;
+    private PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService) {
+
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/signup")
@@ -31,11 +35,11 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String addUser(@Valid @ModelAttribute("user") UserDto user, BindingResult bindingResult) {
+    public String addUser(@Valid @ModelAttribute("user") UserDto userDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "signup";
         }
-
+        userService.createUser(convertDtoToUser(userDto));
         return "redirect:/";
     }  
 
@@ -47,5 +51,10 @@ public class UserController {
     @PostMapping("/login")
     public String login() {
         return "redirect:/";
-    }  
+    }
+
+    private User convertDtoToUser(UserDto dto) {
+        String passwordHash = passwordEncoder.encode(dto.getPassword());
+        return new User(dto.getLogin(), dto.getEmail(), passwordHash, dto.getDateOfBirth());
+    }
 }
