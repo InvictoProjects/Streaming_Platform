@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Register</title>
-
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 <h2 th:text="#{user.register}">New User</h2>
@@ -33,6 +33,8 @@
         <label for="dateOfBirth">Date of birth</label>
         <input th:field="*{dateOfBirth}" type="date" id="dateOfBirth"/>
     </p>
+    <div class="g-recaptcha" th:attr="data-sitekey=${@captchaServiceImpl.getReCaptchaSite()}"></div>
+    <span th:if="${error}"  th:text="${error}">Error</span>
     <input type="submit" value="Register"/>
 </form>
 </body>
