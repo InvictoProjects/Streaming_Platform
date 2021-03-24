@@ -34,7 +34,6 @@
         <input th:field="*{dateOfBirth}" type="date" id="dateOfBirth"/>
     </p>
     <div class="g-recaptcha" th:attr="data-sitekey=${@captchaServiceImpl.getReCaptchaSite()}"></div>
-    <span th:if="${error}"  th:text="${error}">Error</span>
     <input type="submit" value="Register"/>
 </form>
 </body>

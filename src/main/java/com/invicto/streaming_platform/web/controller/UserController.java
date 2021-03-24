@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String addUser(@Valid @ModelAttribute("user") UserDto userDto, BindingResult bindingResult, HttpServletRequest request, Model model) {
+    public String addUser(@Valid @ModelAttribute("user") UserDto userDto, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return "signup";
         }
@@ -49,7 +50,7 @@ public class UserController {
             String response = request.getParameter("g-recaptcha-response");
             captchaService.processResponse(response);
         } catch (ReCaptchaInvalidException e) {
-            model.addAttribute("error", "Please verify you are not a robot by completing the captcha");
+            bindingResult.addError(new ObjectError("global", "Please verify you are not a robot by completing the captcha"));
             return "signup";
         }
 
