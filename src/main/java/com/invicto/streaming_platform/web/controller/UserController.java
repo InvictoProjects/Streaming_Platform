@@ -1,6 +1,8 @@
 package com.invicto.streaming_platform.web.controller;
 
 import com.invicto.streaming_platform.persistence.model.User;
+import com.invicto.streaming_platform.services.UserService;
+import com.invicto.streaming_platform.web.dto.UserDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,21 +17,26 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping(value = "/")
 public class UserController {
-  
+
+    private UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @GetMapping("/signup")
     public String registerUser(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserDto());
         return "signup";
     }
 
     @PostMapping("/signup")
-    public String addUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
+    public String addUser(@Valid @ModelAttribute("user") UserDto user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "signup";
         }
-        // TODO: save user to database via service
 
-        return "redirect:/signup";
+        return "redirect:/";
     }  
 
     @GetMapping("/login")
