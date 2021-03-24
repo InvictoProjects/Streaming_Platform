@@ -365,9 +365,7 @@ class UserServiceImplTest {
     void deleteUserThrowsExceptionIfIdNull() {
         User user = new User();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            userService.deleteUser(user);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> userService.deleteUser(user));
     }
 
     @Test
@@ -377,9 +375,7 @@ class UserServiceImplTest {
 
         when(mockedUserRepository.existsById(5L)).thenReturn(false);
 
-        Assertions.assertThrows(EntityNotFoundException.class, () -> {
-            userService.deleteUser(user);
-        });
+        Assertions.assertThrows(EntityNotFoundException.class, () -> userService.deleteUser(user));
     }
 
     @Test
