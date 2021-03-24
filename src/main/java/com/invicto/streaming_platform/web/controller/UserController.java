@@ -44,6 +44,9 @@ public class UserController {
     public String addUser(@Valid @ModelAttribute("user") UserDto userDto, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return "signup";
+        } else if (userService.findByEmail(userDto.getEmail()).isPresent()) {
+            bindingResult.addError(new ObjectError("global", "User with this email exists"));
+            return "signup";
         }
 
         try {
