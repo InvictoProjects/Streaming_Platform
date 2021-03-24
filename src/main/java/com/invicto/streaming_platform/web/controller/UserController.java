@@ -19,8 +19,8 @@ import javax.validation.Valid;
 @RequestMapping(value = "/")
 public class UserController {
 
-    private UserService userService;
-    private PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
 
     public UserController(UserService userService, PasswordEncoder passwordEncoder) {
