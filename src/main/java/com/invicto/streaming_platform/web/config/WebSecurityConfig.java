@@ -3,6 +3,7 @@ package com.invicto.streaming_platform.web.config;
 import com.invicto.streaming_platform.security.CustomAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,7 +18,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomAuthenticationProvider customAuthenticationProvider;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(customAuthenticationProvider);
     }
 
@@ -41,6 +42,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .anonymous().authorities("ROLE_ANON");
 
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        CustomAuthenticationProvider authProvider = new CustomAuthenticationProvider();
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
     }
 
     @Bean
