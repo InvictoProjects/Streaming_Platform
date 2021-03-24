@@ -1,9 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins',sans-serif;
+  font-family: 'Roboto',sans-serif;
 }
 body{
   height: 100vh;
@@ -14,15 +13,19 @@ body{
   background: linear-gradient(135deg, #42275a, #734b6d);
 }
 
+.title{
+  margin-bottom: 15px;
+}
+
 .message{
-    display: block;
-    font-weight: 500;
-    margin-bottom: 5px;
-    margin-top: 5px;
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .bottomText{
-text-align: center;
+  text-align: center;
 }
 
 .container{
