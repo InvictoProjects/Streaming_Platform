@@ -36,9 +36,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                     .deleteCookies("JSESSIONID")
+                    .invalidateHttpSession(false)
                     .logoutSuccessUrl("/")
+                    .permitAll()
                 .and()
-                .rememberMe().userDetailsService(userDetailsService).key("2w6f-6f00-gglf-jkhj")
+                .rememberMe()
+                    .userDetailsService(userDetailsService)
+                    .key("2w6f-6f00-gglf-jkhj")
+                    .tokenValiditySeconds(1000)
                 .and()
                 .anonymous().authorities("ROLE_ANON");
 
