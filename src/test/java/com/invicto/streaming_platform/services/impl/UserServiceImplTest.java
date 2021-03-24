@@ -9,9 +9,7 @@ import org.junit.jupiter.api.Test;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityExistsException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -260,7 +258,7 @@ class UserServiceImplTest {
         when(mockedUserRepository.findByEmail(email)).thenReturn(testOptionalUser);
         userService.updateResetPasswordToken(newToken, email);
         assertEquals(newToken, user.getResetPasswordToken());
-        verify(mockedUserRepository, timeout(1)).save(testOptionalUser.get());
+        verify(mockedUserRepository, times(1)).save(testOptionalUser.get());
     }
 
     @Test
