@@ -11,8 +11,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
 public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
 
@@ -22,22 +20,17 @@ public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String input = authentication.getName();
-        String password = authentication.getCredentials().toString();
-        System.out.println(password);
-        Optional<User> optionalUser = userService.findByLoginOrEmail(input);
-        if (optionalUser.isEmpty()) {
-            throw new BadCredentialsException("Unknown user "+input);
+        String passwordHash = authentication.getCredentials().toString();
+        User userEntity = userService.findByLoginOrEmail(input);
+        if (!passwordHash.equals(userEntity.getPasswordHash())) {
+            throw new BadCredentialsException("Bad passwordHash");
         }
-        if (!password.equals(optionalUser.get().getPassword())) {
-            throw new BadCredentialsException("Bad password");
-        }
-        System.out.println(input+" "+password);
         UserDetails principal = org.springframework.security.core.userdetails.User.builder()
-                .username(optionalUser.get().getLogin())
-                .password(optionalUser.get().getPassword())
+                .username(userEntity.getLogin())
+                .password(userEntity.getPasswordHash())
                 .roles("USER")
                 .build();
-        return new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(principal, passwordHash, principal.getAuthorities());
     }
 
     @Override

@@ -15,7 +15,9 @@ public class User {
 
     private String login;
     private String email;
-    private String password;
+
+    @Column(name = "password_hash")
+    private String passwordHash;
 
     @Column(name = "reset_psw_token")
     private String resetPasswordToken;
@@ -23,6 +25,32 @@ public class User {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
+
+    public User() {}
+
+    public User(String login, String email, String passwordHash, LocalDate dateOfBirth) {
+        this.login = login;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public User(Long id, String login, String email, String passwordHash, LocalDate dateOfBirth) {
+        this.id = id;
+        this.login = login;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public User(Long id, String login, String email, String passwordHash, String resetPasswordToken, LocalDate dateOfBirth) {
+        this.id = id;
+        this.login = login;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.resetPasswordToken = resetPasswordToken;
+        this.dateOfBirth = dateOfBirth;
+    }
 
     public Long getId() {
         return id;
@@ -48,12 +76,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public LocalDate getDateOfBirth() {
