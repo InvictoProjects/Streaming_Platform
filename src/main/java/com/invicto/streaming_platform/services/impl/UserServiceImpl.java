@@ -64,14 +64,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findByEmail(@NonNull String email) {
-		Pattern emailPattern = Pattern.compile("^[\\w-]+@([\\w-]+\\.)+[\\w-]{2,4}$");
-		Matcher matcher = emailPattern.matcher(email);
-		if (!matcher.find()) {
+	public Optional<User> findByEmail(@NonNull String email) {
+		if (!email.contains("@")) {
 			throw new IllegalArgumentException(String.format("Email %s is incorrect", email));
 		}
-		return userRepository.findByEmail(email)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("User with email %s does not exist", email)));
+		return userRepository.findByEmail(email);
 	}
 
 
