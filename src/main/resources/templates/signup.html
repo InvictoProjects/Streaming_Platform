@@ -7,25 +7,33 @@
 <body>
 <h2 th:text="#{user.register}">New User</h2>
 
-<form th:action="@{/signup}" th:object="${user}" method="post">
+<form th:action="@{/signup}" th:object="${user}" action="#" method="post">
+    <div th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="alert alert-danger">Incorrect password confirmation</div>
     <p>
         <label for="login">Login</label>
-        <input type="text" th:field="*{login}" id="login" placeholder="Enter login" />
+        <input type="text" th:field="*{login}" id="login" placeholder="Enter login"/>
+        <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Login Error</span>
     </p>
     <p>
         <label for="email">Email</label>
-        <input type="text" th:field="*{email}" id="email" placeholder="Enter email" />
+        <input type="text" th:field="*{email}" id="email" placeholder="Enter email"/>
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</span>
     </p>
     <p>
         <label for="password">Password</label>
-        <input type="text" th:field="*{passwordHash}" id="password" placeholder="Enter password" />
+        <input type="password" th:field="*{password}" id="password" placeholder="Enter password"/>
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" >Password Error</span>
+    </p>
+    <p>
+        <label for="passwordConfirmation">Password Confirmation</label>
+        <input id="passwordConfirmation" type="password" title="passwordConfirmation" th:field="*{passwordConfirmation}" placeholder="Enter password confirmation"/>
+        <span th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}">Password Confirmation Error</span>
     </p>
     <p>
         <label for="dateOfBirth">Date of birth</label>
         <input th:field="*{dateOfBirth}" type="date" id="dateOfBirth"/>
     </p>
     <input type="submit" value="Register"/>
-    <p th:if="${#fields.hasErrors('login')}" th:errors="*{login}"/>
 </form>
 </body>
 </html>
