@@ -11,7 +11,7 @@ public interface UserService {
 	User updateUser(User user);
 	List<User> findAll();
 	Optional<User> findByLogin(String login);
-	User findByEmail(String email);
+	Optional<User> findByEmail(String email);
 	Optional<User> findById(Long id);
 	User findByLoginOrEmail(String input);
 	void updateResetPasswordToken(String token, String email);

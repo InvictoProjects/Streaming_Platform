@@ -392,7 +392,9 @@ class UserServiceImplTest {
 
         when(mockedUserRepository.findByEmail(existingEmail)).thenReturn(Optional.of(user));
 
-        User foundUser = userService.findByEmail(existingEmail);
+        Optional<User> optionalUser = userService.findByEmail(existingEmail);
+        assertTrue(optionalUser.isPresent());
+        User foundUser = optionalUser.get();
 
         assertEquals(user.getId(), foundUser.getId());
         assertEquals(user.getEmail(), foundUser.getEmail());
@@ -411,11 +413,11 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findByEmailThrowsExceptionIfEmailDoesNotExist() {
+    void findByEmailReturnEmptyOptional() {
         String notExistingEmail = "justEmail12@gmail.com";
 
         when(mockedUserRepository.findByEmail(notExistingEmail)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(EntityNotFoundException.class, () -> userService.findByEmail(notExistingEmail));
+        assertFalse(userService.findByEmail(notExistingEmail).isPresent());
     }
 }
