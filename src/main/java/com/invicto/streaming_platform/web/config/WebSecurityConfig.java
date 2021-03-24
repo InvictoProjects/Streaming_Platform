@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .deleteCookies("JSESSIONID")
                     .logoutSuccessUrl("/")
                 .and()
-                .rememberMe().key("2w6f-6f00-gglf-jkhj")
+                .rememberMe().userDetailsService(userDetailsService).key("2w6f-6f00-gglf-jkhj")
                 .and()
                 .anonymous().authorities("ROLE_ANON");
 
