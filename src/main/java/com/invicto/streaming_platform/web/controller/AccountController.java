@@ -1,14 +1,14 @@
 package com.invicto.streaming_platform.web.controller;
 
-import com.invicto.streaming_platform.web.config.EmailConfig;
 import com.invicto.streaming_platform.persistence.model.User;
 import com.invicto.streaming_platform.services.UserService;
+import com.invicto.streaming_platform.web.config.EmailConfig;
 import net.bytebuddy.utility.RandomString;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,19 +19,20 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/")
 public class AccountController {
-    @Autowired
-    private JavaMailSenderImpl mailSender;
 
-    @Autowired
-    private EmailConfig emailConfig;
+    private final JavaMailSenderImpl mailSender;
+    private final EmailConfig emailConfig;
+    private final UserService userService;
 
-    @Autowired
-    private UserService userService;
+    public AccountController(JavaMailSenderImpl mailSender, EmailConfig emailConfig, UserService userService) {
+        this.mailSender = mailSender;
+        this.emailConfig = emailConfig;
+        this.userService = userService;
+    }
 
     @GetMapping("/forgot_password")
     public String showForgotPasswordForm() {
@@ -67,9 +68,7 @@ public class AccountController {
 
         helper.setFrom("streaming1platform@gmail.com", "Streaming Platform Support");
         helper.setTo(recipientEmail);
-
         String subject = "Here's the link to reset your password";
-
         String content = "<p>Hello,</p>"
                 + "<p>You have requested to reset your password.</p>"
                 + "<p>Click the link below to change your password:</p>"
@@ -77,9 +76,7 @@ public class AccountController {
                 + "<br>"
                 + "<p>Ignore this email if you do remember your password, "
                 + "or you have not made the request.</p>";
-
         helper.setSubject(subject);
-
         helper.setText(content, true);
 
         mailSender.send(message);

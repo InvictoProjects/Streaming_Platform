@@ -1,5 +1,7 @@
 package com.invicto.streaming_platform.web.controller;
 
+import com.invicto.streaming_platform.captcha.CaptchaService;
+import com.invicto.streaming_platform.captcha.ReCaptchaInvalidException;
 import com.invicto.streaming_platform.persistence.model.User;
 import com.invicto.streaming_platform.services.UserService;
 import com.invicto.streaming_platform.web.dto.UserDto;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -22,11 +25,13 @@ public class UserController {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final CaptchaService captchaService;
 
 
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder, CaptchaService captchaService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.captchaService = captchaService;
     }
 
     @GetMapping("/signup")
@@ -36,13 +41,22 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String addUser(@Valid @ModelAttribute("user") UserDto userDto, BindingResult bindingResult) {
+    public String addUser(@Valid @ModelAttribute("user") UserDto userDto, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return "signup";
         } else if (userService.findByEmail(userDto.getEmail()).isPresent()) {
             bindingResult.addError(new ObjectError("global", "User with this email exists"));
             return "signup";
         }
+
+        try {
+            String response = request.getParameter("g-recaptcha-response");
+            captchaService.processResponse(response);
+        } catch (ReCaptchaInvalidException e) {
+            bindingResult.addError(new ObjectError("global", "Please verify you are not a robot by completing the captcha"));
+            return "signup";
+        }
+
         userService.createUser(convertDtoToUser(userDto));
         return "redirect:/";
     }  
