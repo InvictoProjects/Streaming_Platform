@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <link rel="stylesheet" th:href="@{/styles/registrationStyles.css}" href="#">
     <meta name="viewport" content="width=device-width, initial-scale=1/0">
-
 </head>
 <body>
     <div class="container">
@@ -42,6 +42,8 @@
                     <span for="dateOfBirth" class="details">Date of birth</span>
                     <input th:field="*{dateOfBirth}" type="date" id="dateOfBirth" placeholder="Date of birth"/>
                 </div>
+              
+                <div class="g-recaptcha" th:attr="data-sitekey=${@captchaServiceImpl.getReCaptchaSite()}"></div>
 
                 <div class="button">
                     <input type="submit" value="Register"/>
