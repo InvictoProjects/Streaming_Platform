@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User createUser(User user) {
 		if (user.getId() != null && userRepository.existsById(user.getId())) {
-			throw new EntityExistsException("User with id" + user.getId() + "is already exists");
+			throw new EntityExistsException("User with id " + user.getId() + " is already exists");
 		}
 		return userRepository.save(user);
 	}
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User updateUser(User user) {
 		if (!userRepository.existsById(user.getId())) {
-			throw new EntityNotFoundException("User with id" + user.getId() + "does not exist");
+			throw new EntityNotFoundException("User with id " + user.getId() + " does not exist");
 		}
 		return userRepository.save(user);
 	}
