@@ -1,40 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Register</title>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <link rel="stylesheet" th:href="@{/styles/registrationStyles.css}" href="#">
+    <meta name="viewport" content="width=device-width, initial-scale=1/0">
 </head>
 <body>
-<h2 th:text="#{user.register}">New User</h2>
+    <div class="container">
+    <h2 th:text="#{user.register}" class="title">New User</h2>
 
-<form th:action="@{/signup}" th:object="${user}" action="#" method="post">
-    <div th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="alert alert-danger">Incorrect password confirmation</div>
-    <p>
-        <label for="login">Login</label>
-        <input type="text" th:field="*{login}" id="login" placeholder="Enter login"/>
-        <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Login Error</span>
-    </p>
-    <p>
-        <label for="email">Email</label>
-        <input type="text" th:field="*{email}" id="email" placeholder="Enter email"/>
-        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</span>
-    </p>
-    <p>
-        <label for="password">Password</label>
-        <input type="password" th:field="*{password}" id="password" placeholder="Enter password"/>
-        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" >Password Error</span>
-    </p>
-    <p>
-        <label for="passwordConfirmation">Password Confirmation</label>
-        <input id="passwordConfirmation" type="password" title="passwordConfirmation" th:field="*{passwordConfirmation}" placeholder="Enter password confirmation"/>
-        <span th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}">Password Confirmation Error</span>
-    </p>
-    <p>
-        <label for="dateOfBirth">Date of birth</label>
-        <input th:field="*{dateOfBirth}" type="date" id="dateOfBirth"/>
-    </p>
-    <div class="g-recaptcha" th:attr="data-sitekey=${@captchaServiceImpl.getReCaptchaSite()}"></div>
-    <input type="submit" value="Register"/>
-</form>
+        <form th:action="@{/signup}" th:object="${user}" action="#" method="post">
+            <div class="message">
+                <div th:if="${globalMessage}" th:text="${globalMessage}">Some global message</div>
+                <div th:if="${#fields.hasErrors('global')}" th:errors="*{global}">Global error</div>
+            </div>
+
+            <div class="user-details">
+                <div class="input-box">
+                    <input type="text" th:field="*{login}" id="login" placeholder="Login"/>
+                    <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Login Error</span>
+                </div>
+
+                <div class="input-box">
+                    <input type="text" th:field="*{email}" id="email" placeholder="Email"/>
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</span>
+                </div>
+
+                <div class="input-box">
+                    <input type="password" th:field="*{password}" id="password" placeholder="Password"/>
+                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" >Password Error</span>
+                </div>
+
+                <div class="input-box">
+                    <input id="passwordConfirmation" type="password" title="passwordConfirmation" th:field="*{passwordConfirmation}" placeholder="Password confirmation"/>
+                    <span th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}">Password Confirmation Error</span>
+                </div>
+
+                <div class="input-box">
+                    <span for="dateOfBirth" class="details">Date of birth</span>
+                    <input th:field="*{dateOfBirth}" type="date" id="dateOfBirth" placeholder="Date of birth"/>
+                </div>
+
+                <div class="g-recaptcha" th:attr="data-sitekey=${@captchaServiceImpl.getReCaptchaSite()}"></div>
+
+                <div class="button">
+                    <input type="submit" value="Register"/>
+                </div>
+
+                <div class="bottomText">
+                    <span>Already signed up. Click <a th:href="@{/login}">here</a></span>
+                </div>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

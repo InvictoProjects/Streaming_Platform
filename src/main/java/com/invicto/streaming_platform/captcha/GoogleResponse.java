@@ -2,9 +2,6 @@ package com.invicto.streaming_platform.captcha;
 
 import com.fasterxml.jackson.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
@@ -29,15 +26,18 @@ public class GoogleResponse {
 
     @JsonIgnore
     public boolean hasClientError() {
-        ErrorCode[] errors = getErrorCodes();
-        if(errors == null) {
+        final ErrorCode[] errors = getErrorCodes();
+        if (errors == null) {
             return false;
         }
-        for(ErrorCode error : errors) {
-            switch(error) {
-                case InvalidResponse:
-                case MissingResponse:
+        for (final ErrorCode error : errors) {
+            switch (error) {
+                case INVALID_RESPONSE:
+                case MISSING_RESPONSE:
+                case BAD_REQUEST:
                     return true;
+                default:
+                    break;
             }
         }
         return false;
@@ -73,24 +73,5 @@ public class GoogleResponse {
 
     public void setErrorCodes(ErrorCode[] errorCodes) {
         this.errorCodes = errorCodes;
-    }
-
-    enum ErrorCode {
-        MissingSecret,     InvalidSecret,
-        MissingResponse,   InvalidResponse;
-
-        private static final Map<String, ErrorCode> errorsMap = new HashMap<>(4);
-
-        static {
-            errorsMap.put("missing-input-secret",   MissingSecret);
-            errorsMap.put("invalid-input-secret",   InvalidSecret);
-            errorsMap.put("missing-input-response", MissingResponse);
-            errorsMap.put("invalid-input-response", InvalidResponse);
-        }
-
-        @JsonCreator
-        public static ErrorCode forValue(String value) {
-            return errorsMap.get(value.toLowerCase());
-        }
     }
 }
