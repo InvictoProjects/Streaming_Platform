@@ -9,9 +9,7 @@ import org.junit.jupiter.api.Test;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityExistsException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -260,7 +258,7 @@ class UserServiceImplTest {
         when(mockedUserRepository.findByEmail(email)).thenReturn(testOptionalUser);
         userService.updateResetPasswordToken(newToken, email);
         assertEquals(newToken, user.getResetPasswordToken());
-        verify(mockedUserRepository, timeout(1)).save(testOptionalUser.get());
+        verify(mockedUserRepository, times(1)).save(testOptionalUser.get());
     }
 
     @Test
@@ -367,9 +365,7 @@ class UserServiceImplTest {
     void deleteUserThrowsExceptionIfIdNull() {
         User user = new User();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            userService.deleteUser(user);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> userService.deleteUser(user));
     }
 
     @Test
@@ -379,9 +375,7 @@ class UserServiceImplTest {
 
         when(mockedUserRepository.existsById(5L)).thenReturn(false);
 
-        Assertions.assertThrows(EntityNotFoundException.class, () -> {
-            userService.deleteUser(user);
-        });
+        Assertions.assertThrows(EntityNotFoundException.class, () -> userService.deleteUser(user));
     }
 
     @Test
@@ -394,7 +388,9 @@ class UserServiceImplTest {
 
         when(mockedUserRepository.findByEmail(existingEmail)).thenReturn(Optional.of(user));
 
-        User foundUser = userService.findByEmail(existingEmail);
+        Optional<User> optionalUser = userService.findByEmail(existingEmail);
+        assertTrue(optionalUser.isPresent());
+        User foundUser = optionalUser.get();
 
         assertEquals(user.getId(), foundUser.getId());
         assertEquals(user.getEmail(), foundUser.getEmail());
@@ -413,11 +409,11 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findByEmailThrowsExceptionIfEmailDoesNotExist() {
+    void findByEmailReturnEmptyOptional() {
         String notExistingEmail = "justEmail12@gmail.com";
 
         when(mockedUserRepository.findByEmail(notExistingEmail)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(EntityNotFoundException.class, () -> userService.findByEmail(notExistingEmail));
+        assertFalse(userService.findByEmail(notExistingEmail).isPresent());
     }
 }
