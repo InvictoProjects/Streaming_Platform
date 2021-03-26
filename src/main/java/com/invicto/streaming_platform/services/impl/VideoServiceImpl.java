@@ -21,9 +21,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public Video createVideo(Video video) {
-        if (video.getId() == null) {
-            throw new IllegalArgumentException("Video id can not be null");
-        } else if (videoRepository.existsById(video.getId())) {
+        if (video.getId() != null && videoRepository.existsById(video.getId())) {
             throw new EntityExistsException("Video with id " + video.getId() + " is already exists");
         }
         return videoRepository.save(video);

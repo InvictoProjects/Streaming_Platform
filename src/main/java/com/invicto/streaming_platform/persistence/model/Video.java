@@ -19,7 +19,7 @@ public class Video {
 
     private Long viewsCount;
 
-    private String creatorId;
+    private String creatorLogin;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "date_of_public")
@@ -27,10 +27,10 @@ public class Video {
 
     public Video() {}
 
-    public Video(String title, String description, String creatorId, LocalDate dateOfPublic) {
+    public Video(String title, String description, String creatorLogin, LocalDate dateOfPublic) {
         this.title = title;
         this.description = description;
-        this.creatorId = creatorId;
+        this.creatorLogin = creatorLogin;
         this.dateOfPublic = dateOfPublic;
     }
 
@@ -66,12 +66,12 @@ public class Video {
         this.viewsCount = viewsCount;
     }
 
-    public String getCreatorId() {
-        return creatorId;
+    public String getCreatorLogin() {
+        return creatorLogin;
     }
 
-    public void setCreatorId(String creatorId) {
-        this.creatorId = creatorId;
+    public void setCreatorLogin(String creatorLogin) {
+        this.creatorLogin = creatorLogin;
     }
 
     public LocalDate getDateOfPublic() {
