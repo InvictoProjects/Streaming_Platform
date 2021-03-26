@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface VideoRepository extends CrudRepository<Video, Long> {
-    Optional<Video> findByTitle(String title);
+    Iterable<Video> findByTitle(String title);
 }
