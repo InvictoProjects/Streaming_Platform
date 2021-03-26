@@ -13,5 +13,5 @@ public interface VideoService {
     Video updateVideo(Video video);
     List<Video> findAll();
     Optional<Video> findById(Long id);
-    Optional<Video> findByTitle(String title);
+    List<Video> findByTitle(String title);
 }

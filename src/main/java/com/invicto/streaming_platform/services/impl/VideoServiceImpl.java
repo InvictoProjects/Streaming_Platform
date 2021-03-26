@@ -62,7 +62,9 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public Optional<Video> findByTitle(String title) {
-        return videoRepository.findByTitle(title);
+    public List<Video> findByTitle(String title) {
+        List<Video> videos = new ArrayList<>();
+        videoRepository.findByTitle(title).forEach(videos::add);
+        return videos;
     }
 }
