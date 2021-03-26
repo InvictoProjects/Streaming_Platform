@@ -152,7 +152,7 @@ class UserServiceImplTest {
     void updateNotExistingUser() {
         User user = new User();
 
-        when(mockedUserRepository.save(user)).thenThrow(EntityNotFoundException.class);
+        when(mockedUserRepository.save(user)).thenReturn(user);
 
         assertThrows(EntityNotFoundException.class, () -> userService.updateUser(user));
     }
