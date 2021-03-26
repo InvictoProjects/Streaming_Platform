@@ -21,7 +21,7 @@ public class Video {
 
     private String creatorId;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "date_of_public")
     private LocalDate dateOfPublic;
 
