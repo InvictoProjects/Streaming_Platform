@@ -86,6 +86,9 @@ public class AccountController {
     @GetMapping("/reset_password")
     public String showResetPasswordForm(@Param(value = "token") String token, Model model) {
         User user = userService.findByResetPasswordToken(token);
+        if (user == null) {
+            return "error";
+        }
         model.addAttribute("token", token);
         model.addAttribute("message", "Invalid Token");
         return "reset_password";
