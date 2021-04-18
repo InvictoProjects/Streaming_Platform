@@ -1,50 +1,44 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta name="login" http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Streaming Platform</title>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/styles/registrationStyles.css}" href="#">
+    <meta name="viewport" content="width=device-width, initial-scale=1/0">
 </head>
 <body>
-<div>
+<div class="container">
     <div>
-        <h2 th:text="#{user.login}">Log In</h2>
+        <h2 th:text="#{user.login}" class="title">Log In</h2>
     </div>
-    <div>
-        <form th:action="@{/login}" method="post">
+    <form th:action="@{/login}" method="post">
+        <div class="message">
             <div th:if="${param.error}">
                 <p class="text-danger">Invalid username, email or password</p>
             </div>
-
-            <div th:if="${param.logout}">
-                <p class="text-warning">You have been logged out.</p>
-            </div>
-            <div>
-                <p>
-                    <label for="username">
-                        <input type="text" id="username" placeholder="Your username or email " name="username" required autofocus>
-
-                    </label>
-                </p>
-                <p>
-                    <label for="password">
-                        <input type="password" id="password" placeholder="Your password" name="password" required>
-                    </label>
-                </p>
-                <p>
-                    <label>
-                        <input type="checkbox" checked="checked" name="remember-me"> Remember me
-                    </label>
-                </p>
-                <button type="submit">Login</button>
-            </div>
-        </form>
-    </div>
-    <div>
-        <div>
-            <span>
-                <a th:href="@{/signup}">Sign up</a>
-            </span>
         </div>
-    </div>
+        <div class="user-details">
+            <div class="input-box">
+                <label for="username">
+                    <input type="text" id="username" placeholder="Your username or email " name="username"
+                           required autofocus>
+                </label>
+            </div>
+            <div class="input-box">
+                <label for="password">
+                    <input type="password" id="password" placeholder="Your password" name="password" required>
+                </label>
+            </div>
+            <div class="button">
+                <input type="submit" value="Login"/>
+            </div>
+            <div class="bottomText">
+                <span>
+                    <p><a th:href="@{/signup}">Sign up</a> or
+                        <a th:href="@{/forgot_password}">forgot your password?</a></p>
+                </span>
+            </div>
+        </div>
+    </form>
 </div>
 </body>
