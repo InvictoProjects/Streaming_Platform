@@ -1,0 +1,15 @@
+services:
+  db:
+    build: ./docker/db
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_PASSWORD=postgres
+  jar:
+    build:
+      context: .
+      dockerfile: docker/jar/Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
