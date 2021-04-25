@@ -1,9 +1,11 @@
 package com.invicto.streaming_platform.web.dto;
 
+import com.invicto.streaming_platform.validation.FileIsValid;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
 
+@FileIsValid
 public class VideoDto {
     @NotEmpty(message = "Title is required.")
     private String title;

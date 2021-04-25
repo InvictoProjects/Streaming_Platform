@@ -19,12 +19,12 @@
         <div class="video-details">
             <div class="input-box">
                 <input type="text" th:field="*{title}" id="title" placeholder="Title"/>
-                <span th:if="${#fields.hasErrors('title')}" th:errors="*{login}">Title Error</span>
+                <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</span>
             </div>
 
             <div class="input-box">
                 <input type="text" th:field="*{description}" id="description" placeholder="Description"/>
-                <span th:if="${#fields.hasErrors('description')}" th:errors="*{email}">Description Error</span>
+                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</span>
             </div>
 
             <input th:field="*{source}" type="file"/>
