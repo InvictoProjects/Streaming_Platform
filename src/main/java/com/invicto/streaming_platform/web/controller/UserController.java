@@ -27,7 +27,6 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final CaptchaService captchaService;
 
-
     public UserController(UserService userService, PasswordEncoder passwordEncoder, CaptchaService captchaService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
@@ -75,4 +74,5 @@ public class UserController {
         String passwordHash = passwordEncoder.encode(dto.getPassword());
         return new User(dto.getLogin(), dto.getEmail(), passwordHash, dto.getDateOfBirth());
     }
+
 }
