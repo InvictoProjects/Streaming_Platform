@@ -33,6 +33,7 @@ public class Video {
         this.description = description;
         this.dateOfPublic = dateOfPublic;
         this.creator = creator;
+        this.viewsCount = 0L;
     }
 
     public Long getId() {

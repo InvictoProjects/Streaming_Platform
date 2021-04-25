@@ -27,10 +27,15 @@ public class FileServiceImpl implements FileService {
         try {
             Path directoryToSave = Paths.get(uploadDirectory + File.separator + StringUtils.cleanPath(video.getCreator().getEmail()));
             Files.createDirectories(directoryToSave);
-            Path fileLocation = Paths.get(directoryToSave + File.separator + video.getId());
+            Path fileLocation = Paths.get(directoryToSave + File.separator + video.getId().toString() + getFileExtension(file.getOriginalFilename()));
             Files.copy(file.getInputStream(), fileLocation, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getFileExtension(String fileName) {
+        StringBuilder builder = new StringBuilder(fileName);
+        return builder.substring(builder.indexOf("."));
     }
 }
