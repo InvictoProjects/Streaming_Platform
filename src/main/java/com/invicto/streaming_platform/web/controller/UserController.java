@@ -74,5 +74,4 @@ public class UserController {
         String passwordHash = passwordEncoder.encode(dto.getPassword());
         return new User(dto.getLogin(), dto.getEmail(), passwordHash, dto.getDateOfBirth());
     }
-
 }
