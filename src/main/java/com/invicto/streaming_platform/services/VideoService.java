@@ -1,12 +1,9 @@
 package com.invicto.streaming_platform.services;
 
 import com.invicto.streaming_platform.persistence.model.Video;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
-@Service
 public interface VideoService {
     Video createVideo(Video video);
     void deleteVideo(Video video);
