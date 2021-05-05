@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${video.getTitle()}"></title>
 </head>
 <body>
     <div>
@@ -10,13 +10,13 @@
             <p><video width="840" height="575" id="video" autoplay controls></video></p>
         </div>
         <div>
-            <p th:text="${video.getTitle()}"></p>
+            <h2 th:text="${video.getTitle()}"></h2>
         </div>
         <div th:action="${video.setViewsCount(video.getViewsCount()+1)}">
             <p th:text="'Views: '+${video.getViewsCount()}"></p>
         </div>
         <div>
-            <p th:text="'Creator: '+${video.getCreatorLogin()}"></p>
+            <h4 th:text="'Creator: '+${video.getCreatorLogin()}"></h4>
         </div>
         <div>
             <p th:text="${video.getDateOfPublic()}"></p>
