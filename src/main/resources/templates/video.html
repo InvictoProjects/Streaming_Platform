@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <div>
+            <p><video width="840" height="575" id="video" autoplay controls></video></p>
+        </div>
+        <div>
+            <p th:text="${video.getTitle()}"></p>
+        </div>
+        <div th:action="${video.setViewsCount(video.getViewsCount()+1)}">
+            <p th:text="'Views: '+${video.getViewsCount()}"></p>
+        </div>
+        <div>
+            <p th:text="'Creator: '+${video.getCreatorLogin()}"></p>
+        </div>
+        <div>
+            <p th:text="${video.getDateOfPublic()}"></p>
+        </div>
+        <div>
+            <p th:text="${video.getDescription()}"></p>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="/js/video.js"></script>
+</html>
