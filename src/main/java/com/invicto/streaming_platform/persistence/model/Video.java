@@ -19,7 +19,8 @@ public class Video {
 
     private Long viewsCount;
 
-    private String creatorLogin;
+    @ManyToOne
+    private User creator;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "date_of_public")
@@ -27,11 +28,12 @@ public class Video {
 
     public Video() {}
 
-    public Video(String title, String description, String creatorLogin, LocalDate dateOfPublic) {
+    public Video(String title, String description, User creator, LocalDate dateOfPublic) {
         this.title = title;
         this.description = description;
-        this.creatorLogin = creatorLogin;
         this.dateOfPublic = dateOfPublic;
+        this.creator = creator;
+        this.viewsCount = 0L;
     }
 
     public Long getId() {
@@ -66,12 +68,8 @@ public class Video {
         this.viewsCount = viewsCount;
     }
 
-    public String getCreatorLogin() {
-        return creatorLogin;
-    }
-
-    public void setCreatorLogin(String creatorLogin) {
-        this.creatorLogin = creatorLogin;
+    public User getCreator() {
+        return creator;
     }
 
     public LocalDate getDateOfPublic() {

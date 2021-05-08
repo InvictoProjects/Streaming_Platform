@@ -1,13 +1,16 @@
 package com.invicto.streaming_platform.web.dto;
 
+import com.invicto.streaming_platform.validation.BirthIsValid;
 import com.invicto.streaming_platform.validation.PasswordMatches;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @PasswordMatches
+@BirthIsValid
 public class UserDto {
 
     @Email
@@ -24,6 +27,7 @@ public class UserDto {
     @NotEmpty(message = "Password confirmation is required.")
     private String passwordConfirmation;
 
+    @NotNull(message = "Date of birth is required.")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dateOfBirth;
 
@@ -34,7 +38,7 @@ public class UserDto {
                    @NotEmpty(message = "Login is required.") String login,
                    @NotEmpty(message = "Password is required.") String password,
                    @NotEmpty(message = "Password confirmation is required.") String passwordConfirmation,
-                   LocalDate dateOfBirth) {
+                   @NotNull(message = "Date of birth is required.") LocalDate dateOfBirth) {
         this.email = email;
         this.login = login;
         this.password = password;

@@ -41,6 +41,7 @@
                 <div class="input-box">
                     <span for="dateOfBirth" class="details">Date of birth</span>
                     <input th:field="*{dateOfBirth}" type="date" id="dateOfBirth" placeholder="Date of birth"/>
+                    <span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}">Date Of Birth Error</span>
                 </div>
               
                 <div class="g-recaptcha" th:attr="data-sitekey=${@captchaServiceImpl.getReCaptchaSite()}"></div>
