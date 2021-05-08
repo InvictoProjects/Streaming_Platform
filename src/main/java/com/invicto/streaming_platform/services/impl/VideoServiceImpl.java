@@ -3,6 +3,7 @@ package com.invicto.streaming_platform.services.impl;
 import com.invicto.streaming_platform.persistence.model.Video;
 import com.invicto.streaming_platform.persistence.repository.VideoRepository;
 import com.invicto.streaming_platform.services.VideoService;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class VideoServiceImpl implements VideoService {
 
     private final VideoRepository videoRepository;

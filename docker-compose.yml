@@ -1,0 +1,17 @@
+services:
+  db:
+    build: ./docker/db
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_PASSWORD=postgres
+  boot:
+    build:
+      context: .
+      dockerfile: docker/boot/Dockerfile
+    ports:
+      - '8080:8080'
+    environment:
+      - POSTGRES_HOST=db
+    depends_on:
+      - db
