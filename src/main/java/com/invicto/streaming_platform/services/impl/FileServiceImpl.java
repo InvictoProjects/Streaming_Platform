@@ -17,7 +17,7 @@ import java.nio.file.StandardCopyOption;
 @Service
 public class FileServiceImpl implements FileService {
 
-    @Value("${upload.dir:${user.home}}")
+    @Value("${video.source:${user.home}}")
     private String uploadDirectory;
 
     public void uploadFile(MultipartFile file, Video video) {
