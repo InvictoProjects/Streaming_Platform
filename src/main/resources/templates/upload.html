@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Uploading</title>
+    <link rel="stylesheet" th:href="@{/styles/uploadStyles.css}" href="#">
+    <meta name="viewport" content="width=device-width, initial-scale=1/0">
+</head>
+<body>
+<div class="container">
+    <h2 th:text="#{user.upload}" class="title">File Uploading</h2>
+
+    <form th:action="@{/uploadFile}" th:object="${fileData}" action="#" method="post" enctype="multipart/form-data">
+        <div class="message">
+            <div th:if="${globalMessage}" th:text="${globalMessage}">Some global message</div>
+            <div th:if="${#fields.hasErrors('global')}" th:errors="*{global}">Global error</div>
+        </div>
+
+        <div class="video-details">
+            <div class="input-box">
+                <input type="text" th:field="*{title}" id="title" placeholder="Title"/>
+                <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</span>
+            </div>
+
+            <div class="input-box">
+                <input type="text" th:field="*{description}" id="description" placeholder="Description"/>
+                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</span>
+            </div>
+
+            <input th:field="*{source}" type="file"/>
+
+            <div class="button">
+                <input type="submit" value="Upload"/>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
