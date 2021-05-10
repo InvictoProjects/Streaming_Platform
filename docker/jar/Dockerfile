@@ -1,5 +1,6 @@
 FROM maven:3.8-jdk-11 AS builder
-COPY . .
+COPY pom.xml pom.xml
+COPY /src /src
 RUN mvn package
 
 FROM openjdk:11-jdk
