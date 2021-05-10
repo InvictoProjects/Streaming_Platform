@@ -21,9 +21,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Get Image Tag
-        id: getTag
-        run: echo "::set-output name=tag::$(date +'%Y-%m-%d')"
       -
         name: Build and push
         uses: docker/build-push-action@v2
@@ -31,9 +28,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/invictoprojects/streaming_platform:${{ steps.getTag.outputs.tag }}
+            ghcr.io/invictoprojects/streaming_platform:${{ github.event.release.tag_name }}
             ghcr.io/invictoprojects/streaming_platform:latest
           file: docker/jar/Dockerfile
           cache-from: type=registry,ref=ghcr.io/invictoprojects/streaming_platform:latest
           cache-to: type=inline
-          
