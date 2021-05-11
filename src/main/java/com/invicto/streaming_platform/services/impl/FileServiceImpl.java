@@ -2,6 +2,7 @@ package com.invicto.streaming_platform.services.impl;
 
 import com.invicto.streaming_platform.persistence.model.Video;
 import com.invicto.streaming_platform.services.FileService;
+import com.invicto.streaming_platform.services.VideoService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -9,16 +10,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
+import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 public class FileServiceImpl implements FileService {
 
     @Value("${video.source:${user.home}}")
     private String uploadDirectory;
+    private final VideoService videoService;
+
+    public FileServiceImpl(VideoService videoService) {
+        this.videoService = videoService;
+    }
+
 
     public void uploadFile(MultipartFile file, Video video) {
         if (file == null || video == null) {
@@ -32,6 +38,30 @@ public class FileServiceImpl implements FileService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Path findByVideoId(long id) {
+        Optional<Video> optionalVideo = videoService.findById(id);
+        if (optionalVideo.isEmpty()) {
+            throw new IllegalArgumentException("Arguments cannot be null");
+        }
+        Video video = optionalVideo.get();
+        String creatorEmail = video.getCreator().getEmail();
+        String dirPath = uploadDirectory+File.separator+creatorEmail;
+        String filePath = dirPath+File.separator+video.getId();
+        PathMatcher matcher = FileSystems.getDefault().getPathMatcher("regex:"+filePath+"\\.mp4|webm|ogg");
+        File dir = new File(dirPath);
+        File[] files = dir.listFiles();
+        if (files == null) {
+            throw new IllegalArgumentException("There is no videos of that user");
+        }
+        for (File file : files) {
+            Path path = file.toPath();
+            if (matcher.matches(path)) {
+                return path;
+            }
+        }
+        return null;
     }
 
     private String getFileExtension(String fileName) {

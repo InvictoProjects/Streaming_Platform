@@ -15,6 +15,7 @@ public class Video {
 
     private String title;
 
+    @Column(columnDefinition = "text")
     private String description;
 
     private Long viewsCount;
