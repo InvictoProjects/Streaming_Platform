@@ -27,7 +27,15 @@
                 <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</span>
             </div>
 
-            <input th:field="*{source}" type="file"/>
+            <div class="fileInput">
+                <span>Select video:</span>
+                <input th:field="*{source}" type="file" accept="video/mp4"/>
+            </div>
+
+            <div class="fileInput">
+                <span>Select banner:</span>
+                <input th:field="*{banner}" type="file" accept="image/jpeg, image/png"/>
+            </div>
 
             <div class="button">
                 <input type="submit" value="Upload"/>
