@@ -1,18 +1,17 @@
 package com.invicto.streaming_platform.web.controller;
 
 import com.invicto.streaming_platform.persistence.model.Video;
+import com.invicto.streaming_platform.services.FileService;
 import com.invicto.streaming_platform.services.VideoService;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,10 +23,12 @@ import java.util.stream.Collectors;
 public class VideoController {
 
     private final VideoService videoService;
+    private final FileService fileService;
     private final ConcurrentHashMap<String, File> videoMap = new ConcurrentHashMap<>();
 
-    public VideoController(VideoService videoService) {
+    public VideoController(VideoService videoService, FileService fileService) {
         this.videoService = videoService;
+        this.fileService = fileService;
     }
 
     @PostConstruct
@@ -40,7 +41,7 @@ public class VideoController {
     }
 
     @GetMapping("/video")
-    public String stream(Model model, @RequestParam String id) {
+    public String str0eam(Model model, @RequestParam String id) {
         Optional<Video> optionalVideo = videoService.findById(Long.parseLong(id));
         if (optionalVideo.isEmpty()) {
             return "error";
@@ -50,11 +51,22 @@ public class VideoController {
         return "video";
     }
 
+    @PostMapping(value = "/video")
+    public String incrementView(@RequestParam String id) {
+        Optional<Video> optionalVideo = videoService.findById(Long.parseLong(id));
+        if (optionalVideo.isEmpty()) {
+            throw new IllegalArgumentException("There is no videos of that user");
+        }
+        Video video = optionalVideo.get();
+        video.setViewsCount(video.getViewsCount()+1);
+        videoService.updateVideo(video);
+        return "redirect:/video?id="+id;
+    }
+
     @GetMapping(value = "/video/stream")
     @ResponseBody
     public ResponseEntity<FileSystemResource> doStream(@RequestParam String id) {
-        File videoFile = videoMap.get(id+".mp4");
+        Path videoFile = fileService.findByVideoId(Long.parseLong(id));
         return ResponseEntity.ok().body(new FileSystemResource(videoFile));
     }
-
 }
