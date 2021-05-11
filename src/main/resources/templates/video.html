@@ -3,28 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${video.getTitle()}"></title>
+    <link rel="stylesheet" th:href="@{/styles/video.css}" href="#">
 </head>
 <body>
-    <div>
+    <div class="room">
         <div>
-            <p><video width="840" height="575" id="video" autoplay controls></video></p>
+            <p><video class="video" id="video" autoplay controls>Відео не знайдено</video></p>
         </div>
-        <div>
+        <div class="title">
             <h2 th:text="${video.getTitle()}"></h2>
         </div>
-        <div th:action="${video.setViewsCount(video.getViewsCount()+1)}">
-            <p th:text="'Views: '+${video.getViewsCount()}"></p>
+        <div class="details">
+            <span id="detailsInfo" th:text="${video.getViewsCount()}+' views'+' • '+'Published: '+${video.getDateOfPublic()}"></span>
         </div>
-        <div>
-            <h4 th:text="'Creator: '+${video.getCreatorLogin()}"></h4>
+        <hr>
+        <div class="creator_info">
+            <p th:text="'Creator: '+${video.getCreator().getLogin()}"></p>
         </div>
-        <div>
-            <p th:text="${video.getDateOfPublic()}"></p>
-        </div>
-        <div>
+        <div class="description">
             <p th:text="${video.getDescription()}"></p>
         </div>
     </div>
 </body>
-<script type="text/javascript" src="/js/video.js"></script>
+<script type="text/javascript" th:src="@{/js/video.js}"></script>
 </html>

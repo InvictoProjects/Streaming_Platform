@@ -1,0 +1,45 @@
+body {
+    min-height: 100vh;
+    max-width: 100vw;
+    display: flex;
+    justify-content: center;
+    margin: 0 160px;
+    background: linear-gradient(135deg, #42275a, #734b6d);
+}
+
+.room {
+    background: white;
+    padding-left: 60px;
+    padding-right: 40px;
+}
+
+.video {
+    width: 100%;
+}
+
+.title {
+    font-family: "Gill Sans", sans-serif;
+    font-size: 18px;
+    color: black;
+    text-align: justify;
+}
+
+.details {
+    font-family: Georgia, serif;
+    font-size: 18px;
+    color: gray;
+    padding: 10px;
+}
+
+.creator_info {
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    color: black;
+}
+
+.description {
+    font-family: Georgia, sans-serif;
+    font-size: 18px;
+    color: black;
+    text-align: justify;
+}
