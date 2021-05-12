@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${video.getTitle()}"></title>
+    <link rel="stylesheet" th:href="@{/styles/video.css}" href="#">
+</head>
+<body>
+    <div class="room">
+        <div>
+            <p><video class="video" id="video" autoplay controls>Відео не знайдено</video></p>
+        </div>
+        <div class="title">
+            <h2 th:text="${video.getTitle()}"></h2>
+        </div>
+        <div class="details">
+            <span id="detailsInfo" th:text="${video.getViewsCount()}+' views'+' • '+'Published: '+${video.getDateOfPublic()}"></span>
+        </div>
+        <hr>
+        <div class="creator_info">
+            <p th:text="'Creator: '+${video.getCreator().getLogin()}"></p>
+        </div>
+        <div class="description">
+            <span id="description" th:text="${video.getDescription()}"></span>
+            <span id="dots">...</span>
+            <span id="more_description"></span>
+            <p></p>
+            <button id="description_btn" onclick="showDescription()">Show more</button>
+            <p></p>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" th:src="@{/js/video.js}"></script>
+</html>

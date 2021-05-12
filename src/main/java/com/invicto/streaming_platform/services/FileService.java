@@ -3,6 +3,9 @@ package com.invicto.streaming_platform.services;
 import com.invicto.streaming_platform.persistence.model.Video;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Path;
+
 public interface FileService {
-    public void uploadFile(MultipartFile file, Video video);
+    void uploadFile(MultipartFile file, Video video);
+    Path findPathByVideoId(long id);
 }
