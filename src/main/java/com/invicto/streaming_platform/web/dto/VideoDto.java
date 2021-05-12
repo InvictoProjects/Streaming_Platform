@@ -44,7 +44,7 @@ public class VideoDto {
         return thumbnail;
     }
 
-    public void setThumbnail(MultipartFile banner) {
-        this.thumbnail = banner;
+    public void setThumbnail(MultipartFile thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }
