@@ -7,5 +7,5 @@ import java.nio.file.Path;
 
 public interface FileService {
     void uploadFile(MultipartFile file, Video video);
-    Path findByVideoId(long id);
+    Path findPathByVideoId(long id);
 }

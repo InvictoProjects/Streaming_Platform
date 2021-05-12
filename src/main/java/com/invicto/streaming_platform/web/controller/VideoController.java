@@ -47,7 +47,7 @@ public class VideoController {
     @GetMapping(value = "/video/stream")
     @ResponseBody
     public ResponseEntity<FileSystemResource> doStream(@RequestParam String id) {
-        Path videoFile = fileService.findByVideoId(Long.parseLong(id));
+        Path videoFile = fileService.findPathByVideoId(Long.parseLong(id));
         return ResponseEntity.ok().body(new FileSystemResource(videoFile));
     }
 }

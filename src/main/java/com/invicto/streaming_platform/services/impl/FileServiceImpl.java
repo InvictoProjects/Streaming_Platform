@@ -38,7 +38,7 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    public Path findByVideoId(long id) {
+    public Path findPathByVideoId(long id) {
         Video video = videoService.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Arguments cannot be null"));;
         String creatorId = String.valueOf(video.getCreator().getId());
