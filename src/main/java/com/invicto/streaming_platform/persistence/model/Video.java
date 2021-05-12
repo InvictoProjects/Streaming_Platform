@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "Video")
@@ -22,6 +23,9 @@ public class Video {
 
     @ManyToOne
     private User creator;
+
+    @OneToMany
+    private List<Comment> comments;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "date_of_public")
@@ -79,5 +83,13 @@ public class Video {
 
     public void setDateOfPublic(LocalDate dateOfPublic) {
         this.dateOfPublic = dateOfPublic;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

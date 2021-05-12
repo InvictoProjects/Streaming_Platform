@@ -25,7 +25,7 @@ public class VideoController {
     }
 
     @GetMapping("/video")
-    public String str0eam(Model model, @RequestParam String id) {
+    public String stream(Model model, @RequestParam String id) {
         Optional<Video> optionalVideo = videoService.findById(Long.parseLong(id));
         if (optionalVideo.isEmpty()) {
             return "error";
@@ -37,11 +37,8 @@ public class VideoController {
 
     @PostMapping(value = "/video")
     public String incrementView(@RequestParam String id) {
-        Optional<Video> optionalVideo = videoService.findById(Long.parseLong(id));
-        if (optionalVideo.isEmpty()) {
-            throw new IllegalArgumentException("There is no videos of that user");
-        }
-        Video video = optionalVideo.get();
+        Video video = videoService.findById(Long.parseLong(id)).orElseThrow(
+                () -> new IllegalArgumentException("There is no videos of that user"));
         video.setViewsCount(video.getViewsCount()+1);
         videoService.updateVideo(video);
         return "redirect:/video?id="+id;

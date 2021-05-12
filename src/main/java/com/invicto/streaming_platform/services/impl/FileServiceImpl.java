@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -41,13 +42,10 @@ public class FileServiceImpl implements FileService {
     }
 
     public Path findByVideoId(long id) {
-        Optional<Video> optionalVideo = videoService.findById(id);
-        if (optionalVideo.isEmpty()) {
-            throw new IllegalArgumentException("Arguments cannot be null");
-        }
-        Video video = optionalVideo.get();
+        Video video = videoService.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Arguments cannot be null"));;
         String creatorEmail = video.getCreator().getEmail();
-        String dirPath = uploadDirectory+File.separator+creatorEmail;
+        String dirPath = uploadDirectory+File.separator+creatorEmail+File.separator+video.getId();
         String filePath = dirPath+File.separator+video.getId();
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("regex:"+filePath+"\\.mp4|webm|ogg");
         File dir = new File(dirPath);
