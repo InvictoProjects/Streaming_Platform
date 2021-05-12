@@ -55,6 +55,7 @@ public class FileController {
             Video video = new Video(title, description, creator, LocalDate.now());
             video = videoService.createVideo(video);
             fileService.uploadFile(videoDto.getSource(), video);
+            fileService.uploadFile(videoDto.getThumbnail(), video);
         }
         return "redirect:/";
     }
