@@ -14,6 +14,7 @@ public class VideoDto {
     private String description;
 
     private MultipartFile source;
+    private MultipartFile thumbnail;
 
     public String getTitle() {
         return title;
@@ -37,5 +38,13 @@ public class VideoDto {
 
     public void setSource(MultipartFile source) {
         this.source = source;
+    }
+
+    public MultipartFile getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(MultipartFile thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

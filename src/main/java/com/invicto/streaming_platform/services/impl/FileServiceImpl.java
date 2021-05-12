@@ -29,7 +29,7 @@ public class FileServiceImpl implements FileService {
             throw new IllegalArgumentException("Arguments cannot be null");
         }
         try {
-            Path directoryToSave = Paths.get(uploadDirectory + File.separator + StringUtils.cleanPath(video.getCreator().getEmail()));
+            Path directoryToSave = Paths.get(uploadDirectory + File.separator + StringUtils.cleanPath("" + video.getCreator().getId()));
             Files.createDirectories(directoryToSave);
             Path fileLocation = Paths.get(directoryToSave + File.separator + video.getId().toString() + getFileExtension(file.getOriginalFilename()));
             Files.copy(file.getInputStream(), fileLocation, StandardCopyOption.REPLACE_EXISTING);
@@ -61,6 +61,6 @@ public class FileServiceImpl implements FileService {
 
     private String getFileExtension(String fileName) {
         StringBuilder builder = new StringBuilder(fileName);
-        return builder.substring(builder.indexOf("."));
+        return builder.substring(builder.lastIndexOf("."));
     }
 }

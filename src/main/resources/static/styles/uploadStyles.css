@@ -118,3 +118,7 @@ form .video-details .input-box{
     flex-direction: column;
   }
 }
+
+.fileInput {
+    padding: 10px;
+}
