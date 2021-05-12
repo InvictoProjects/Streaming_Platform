@@ -44,8 +44,8 @@ public class FileServiceImpl implements FileService {
     public Path findByVideoId(long id) {
         Video video = videoService.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Arguments cannot be null"));;
-        String creatorEmail = video.getCreator().getEmail();
-        String dirPath = uploadDirectory+File.separator+creatorEmail+File.separator+video.getId();
+        String creatorId = String.valueOf(video.getCreator().getId());
+        String dirPath = uploadDirectory+File.separator+creatorId;
         String filePath = dirPath+File.separator+video.getId();
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("regex:"+filePath+"\\.mp4|webm|ogg");
         File dir = new File(dirPath);
