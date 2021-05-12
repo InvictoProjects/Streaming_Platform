@@ -31,3 +31,30 @@ video.addEventListener("play", () => {
 source.setAttribute('src', path+"/stream?id="+id);
 source.setAttribute('type', 'video/mp4');
 video.appendChild(source);
+
+const visibleDescription = document.getElementById("description");
+const wholeDescription = visibleDescription.textContent;
+const descriptionLength = wholeDescription.length;
+if (descriptionLength <= 300) {
+    document.getElementById("dots").hidden = true;
+    document.getElementById("description_btn").hidden = true;
+} else {
+    document.getElementById("description").textContent = wholeDescription.substring(0, 299);
+    document.getElementById("more_description").textContent = wholeDescription.substring(299);
+    document.getElementById("more_description").hidden = true;
+}
+
+let isShownWhole = false;
+function showDescription() {
+    if (isShownWhole) {
+        document.getElementById("dots").hidden = false;
+        document.getElementById("more_description").hidden = true;
+        document.getElementById("description_btn").textContent = "Show more";
+        isShownWhole = false;
+    } else {
+        document.getElementById("dots").hidden = true;
+        document.getElementById("more_description").hidden = false;
+        document.getElementById("description_btn").textContent = "Show less";
+        isShownWhole = true;
+    }
+}

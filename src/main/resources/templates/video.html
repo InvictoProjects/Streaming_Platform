@@ -21,8 +21,11 @@
             <p th:text="'Creator: '+${video.getCreator().getLogin()}"></p>
         </div>
         <div class="description">
-            <p th:text="${video.getDescription()}"></p>
-        </div>
+            <span id="description" th:text="${video.getDescription()}"></span>
+            <span id="dots">...</span>
+            <span id="more_description"></span>
+            <p></p>
+            <button id="description_btn" onclick="showDescription()">Show more</button>        </div>
     </div>
 </body>
 <script type="text/javascript" th:src="@{/js/video.js}"></script>

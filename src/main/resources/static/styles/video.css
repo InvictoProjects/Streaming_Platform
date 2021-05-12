@@ -43,3 +43,12 @@ body {
     color: black;
     text-align: justify;
 }
+
+#description_btn {
+    background-color: white;
+    border: none;
+    font-family: "Gill Sans", sans-serif;
+    font-size: 18px;
+    color: gray;
+    text-align: justify;
+}
