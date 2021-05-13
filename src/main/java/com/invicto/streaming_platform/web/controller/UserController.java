@@ -2,6 +2,7 @@ package com.invicto.streaming_platform.web.controller;
 
 import com.invicto.streaming_platform.captcha.CaptchaService;
 import com.invicto.streaming_platform.captcha.ReCaptchaInvalidException;
+import com.invicto.streaming_platform.captcha.RequiresCaptcha;
 import com.invicto.streaming_platform.persistence.model.User;
 import com.invicto.streaming_platform.services.UserService;
 import com.invicto.streaming_platform.web.dto.UserDto;
@@ -40,25 +41,17 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String addUser(@Valid @ModelAttribute("user") UserDto userDto, BindingResult bindingResult, HttpServletRequest request) {
+    @RequiresCaptcha
+    public String addUser(@Valid @ModelAttribute("user") UserDto userDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "signup";
         } else if (userService.findByEmail(userDto.getEmail()).isPresent()) {
             bindingResult.addError(new ObjectError("global", "User with this email exists"));
             return "signup";
         }
-
-        try {
-            String response = request.getParameter("g-recaptcha-response");
-            captchaService.processResponse(response);
-        } catch (ReCaptchaInvalidException e) {
-            bindingResult.addError(new ObjectError("global", "Please verify you are not a robot by completing the captcha"));
-            return "signup";
-        }
-
         userService.createUser(convertDtoToUser(userDto));
         return "redirect:/";
-    }  
+    }
 
     @GetMapping("/login")
     public String viewLoginPage() {
