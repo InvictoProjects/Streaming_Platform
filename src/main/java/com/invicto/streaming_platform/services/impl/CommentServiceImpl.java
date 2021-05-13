@@ -6,6 +6,7 @@ import com.invicto.streaming_platform.persistence.repository.CommentRepository;
 import com.invicto.streaming_platform.services.CommentService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -24,5 +25,12 @@ public class CommentServiceImpl implements CommentService {
         }
         video.getComments().add(comment);
         commentRepository.save(comment);
+    }
+
+    @Override
+    public List<Comment> getCommentsToVideo(Video video) {
+        List<Comment> comments = video.getComments();
+        Collections.reverse(comments);
+        return comments;
     }
 }

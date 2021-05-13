@@ -58,3 +58,33 @@ function showDescription() {
         isShownWhole = true;
     }
 }
+
+function addComment() {
+    const commentText = document.getElementById("comment_text").value;
+    if (commentText.toString().trim() === "") {
+        return;
+    }
+    document.getElementById("comment_text").value = "";
+    request.open("POST", "/video/add_comment?id=" + id + "&text="+commentText);
+    request.send();
+
+    const newComment = document.createElement("div");
+    const div1 = document.createElement("div");
+    const div2 = document.createElement("div");
+    const span1 = document.createElement("span");
+    const span2 = document.createElement("span");
+    const p = document.createElement("p");
+
+    span1.textContent = document.getElementById("comment_text").name+" • ";
+    const date = new Date();
+    span2.textContent = date.getUTCFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+    p.textContent = commentText;
+
+    div1.appendChild(span1);
+    div1.appendChild(span2);
+    div2.appendChild(p);
+    newComment.appendChild(div1);
+    newComment.appendChild(div2);
+    const comments = document.getElementById("comment_table");
+    comments.insertBefore(newComment, comments.firstChild);
+}
