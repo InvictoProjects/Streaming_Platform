@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" th:href="@{/styles/registrationStyles.css}" href="#">
+    <link th:href="@{/styles/login.css}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <script th:src="@{/js/login.js}" async></script>
     <div th:replace="fragments/captcha.html :: head"></div>
     <meta name="viewport" content="width=device-width, initial-scale=1/0">
 </head>
@@ -29,6 +32,11 @@
                 <label for="password">
                     <input type="password" id="password" placeholder="Your password" name="password" required>
                 </label>
+                <button type="button" toggle="#password" class="toggle-password-btn">
+                    <span class="material-icons-outlined md-dark eye">
+                        visibility
+                    </span>
+                </button>
             </div>
             <div th:replace="fragments/captcha.html :: captcha"></div>
             <div class="button">
