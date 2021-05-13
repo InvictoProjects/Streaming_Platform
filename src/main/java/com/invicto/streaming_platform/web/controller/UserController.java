@@ -1,7 +1,6 @@
 package com.invicto.streaming_platform.web.controller;
 
 import com.invicto.streaming_platform.captcha.CaptchaService;
-import com.invicto.streaming_platform.captcha.ReCaptchaInvalidException;
 import com.invicto.streaming_platform.captcha.RequiresCaptcha;
 import com.invicto.streaming_platform.persistence.model.User;
 import com.invicto.streaming_platform.services.UserService;
@@ -10,14 +9,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller

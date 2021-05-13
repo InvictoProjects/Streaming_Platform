@@ -34,58 +34,6 @@ a {
   color: var(--color-primary);
 }
 
-.header {
-  position: sticky;
-  top: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: var(--bg-color-secondary);
-}
-
-.header-start a {
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-
-.header-end {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.header-end a {
-  margin-left: 1.25rem;
-  font-weight: 700;
-}
-
-.login-btn {
-  padding: 0.5rem 1.125rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 0 0.125rem inset var(--color-primary);
-}
-
-.login-btn:hover {
-  background-color: var(--color-accent-secondary);
-}
-
-.signup-btn {
-  color: var(--color-secondary);
-  padding: 0.5rem 1.125rem;
-  background-color: var(--color-primary);
-  border-radius: 0.5rem;
-}
-
-.logout-btn:hover {
-  color: var(--color-accent-primary);
-}
-
-.signup-btn:hover {
-  background-color: var(--color-accent-primary);
-}
-
 .videos-container {
   display: flex;
   flex-direction: column;
@@ -118,39 +66,6 @@ a {
   max-width: 100%;
 }
 
-.footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 4rem;
-  background-color: var(--bg-color-secondary);
-}
-
-.footer-start {
-  width: 10.125rem;
-  height: 1.25rem;
-}
-
-.invicto-logo {
-  fill: var(--color-primary);
-}
-
-.footer-end {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-size: 0.875rem;
-}
-
-.footer-end p {
-  margin-left: 2rem;
-}
-
-.footer-end a {
-  font-weight: 700;
-}
-
 @media only screen and (min-width:1200px) and (max-width:1680px) {
   .videos {
     grid-template-columns: repeat(4, 1fr);
@@ -180,9 +95,6 @@ a {
     display: none;
   }
 
-  .footer {
-    flex-direction: column;
-  }
 }
 
 @media only screen and (max-width:480px) {
@@ -192,9 +104,5 @@ a {
 
   .videos li:nth-of-type(1n+3) {
     display: none;
-  }
-
-  .footer {
-    flex-direction: column;
   }
 }

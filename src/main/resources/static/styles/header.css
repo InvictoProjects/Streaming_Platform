@@ -1,0 +1,55 @@
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--bg-color-secondary);
+}
+
+.header-start a {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.header-end {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header-end a {
+  margin-left: 1.25rem;
+  font-weight: 700;
+}
+
+.header button {
+  border: none;
+}
+
+.login-btn {
+  padding: 0.5rem 1.125rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0 0.125rem inset var(--color-primary);
+}
+
+.login-btn:hover {
+  background-color: var(--color-accent-secondary);
+}
+
+.signup-btn {
+  color: var(--color-secondary);
+  padding: 0.5rem 1.125rem;
+  background-color: var(--color-primary);
+  border-radius: 0.5rem;
+}
+
+.logout-btn:hover {
+  color: var(--color-accent-primary);
+}
+
+.signup-btn:hover {
+  background-color: var(--color-accent-primary);
+}

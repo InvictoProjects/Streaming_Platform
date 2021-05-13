@@ -1,0 +1,32 @@
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 4rem;
+  background-color: var(--bg-color-secondary);
+}
+
+.footer-start {
+  width: 10.125rem;
+  height: 1.25rem;
+}
+
+.invicto-logo {
+  fill: var(--color-primary);
+}
+
+.footer-end {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.footer-end p {
+  margin-left: 2rem;
+}
+
+.footer-end a {
+  font-weight: 700;
+}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Header Fragment</title>
+    <link th:href="@{/styles/header.css}" rel="stylesheet">
+</head>
+<body>
+<header th:fragment="header" class="header">
+    <div class="header-start">
+        <a th:href="@{/}">Streaming Platform</a>
+    </div>
+    <div class="header-end">
+        <a sec:authorize="isAnonymous()" class="login-btn" th:href="@{/login}">Log In</a>
+        <a sec:authorize="isAnonymous()" class="signup-btn" th:href="@{/signup}">Sign Up</a>
+        <a sec:authorize="isAuthenticated()" class="logout-btn" th:href="@{/logout}">Logout</a>
+    </div>
+</header>
+</body>
+</html>
