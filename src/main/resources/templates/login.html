@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" th:href="@{/styles/registrationStyles.css}" href="#">
+    <div th:replace="fragments/captcha.html :: head"></div>
     <meta name="viewport" content="width=device-width, initial-scale=1/0">
 </head>
 <body>
@@ -29,6 +30,7 @@
                     <input type="password" id="password" placeholder="Your password" name="password" required>
                 </label>
             </div>
+            <div th:replace="fragments/captcha.html :: captcha"></div>
             <div class="button">
                 <input type="submit" value="Login"/>
             </div>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <script th:src="@{/js/reCaptcha.js}" async></script>
+    <script th:src="@{https://www.google.com/recaptcha/api.js}" async defer></script>
+</head>
+<body>
+<div th:fragment="captcha">
+    <div class="g-recaptcha" th:attr="data-sitekey=${@captchaServiceImpl.getReCaptchaSite()}"
+         data-callback="onReCaptchaSuccess" data-expired-callback="onReCaptchaExpired"></div>
+    <span id="captchaError" style="display:none"></span>
+</div>
+</body>
+</html>
