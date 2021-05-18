@@ -31,7 +31,7 @@
             <p></p>
         </div>
         <hr>
-        <div class="create_comment_area">
+        <div class="new_comment_area">
             <div class="comment_title">
                 <p>Comments</p>
                 <p class="comment_details" sec:authorize="isAnonymous()">Authorize to write comments</p>
@@ -48,8 +48,8 @@
         <div class="comment_table" id="comment_table">
             <div class="comment" th:each="comment: ${comments}">
                 <div class="comment_info">
-                    <span th:text="${comment.getCreator().getLogin()}+' • '"></span>
-                    <span th:text="${comment.getDateOfPublic()}"></span>
+                    <span class="comment_user_name" th:text="${comment.getCreator().getLogin()}"></span>
+                    <span class="comment_date" th:text="' • '+${comment.getDateOfPublic()}"></span>
                 </div>
                 <div class="comment_text">
                     <p th:text="${comment.getText()}"></p>
