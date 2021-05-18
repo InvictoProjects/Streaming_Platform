@@ -79,12 +79,20 @@ function addComment() {
     const date = new Date();
     span2.textContent = date.getUTCFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
     p.textContent = commentText;
+    span1.setAttribute("class", "comment_user_name");
+    span2.setAttribute("class", "comment_date")
 
     div1.appendChild(span1);
     div1.appendChild(span2);
+    div1.setAttribute("class", "comment_info");
+
     div2.appendChild(p);
+    div2.setAttribute("class", "comment_text");
+
     newComment.appendChild(div1);
     newComment.appendChild(div2);
+    newComment.setAttribute("class", "comment")
+
     const comments = document.getElementById("comment_table");
     comments.insertBefore(newComment, comments.firstChild);
 }
