@@ -11,4 +11,5 @@ public interface VideoService {
     List<Video> findAll();
     Optional<Video> findById(Long id);
     List<Video> findByTitle(String title);
+    List<Video> getPageSortedByViewsCount(int pageNumber, int pageSize);
 }
