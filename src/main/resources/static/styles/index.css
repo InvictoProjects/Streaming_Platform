@@ -66,6 +66,22 @@ a {
   vertical-align: top;
 }
 
+.show-more-btn {
+  background-color: var(--color-secondary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.show-more-btn:hover {
+  background-color: var(--color-accent-secondary);
+}
+
 @media only screen and (min-width:1200px) and (max-width:1680px) {
   .videos {
     grid-template-columns: repeat(4, 1fr);

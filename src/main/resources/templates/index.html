@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link th:href="@{/styles/index.css}" rel="stylesheet">
     <link th:href="@{/styles/header.css}" rel="stylesheet">
     <link th:href="@{/styles/footer.css}" rel="stylesheet">
@@ -21,7 +22,12 @@
     <a class="section-header" href="/videos" th:href="@{/videos}">Videos</a>
     <div class="videos-container">
         <ul class="videos"></ul>
-        <button class="show-more-btn">Show more</button>
+        <button type="button" class="show-more-btn">
+            <span>Show more</span>
+            <span class="material-icons-outlined">
+                expand_more
+            </span>
+        </button>
     </div>
 </div>
 <div th:replace="fragments/footer.html :: footer"></div>
