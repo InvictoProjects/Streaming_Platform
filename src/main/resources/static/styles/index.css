@@ -57,10 +57,6 @@ a {
   margin: 1rem 0;
 }
 
-.videos li:nth-of-type(1n+11) {
-  display: none;
-}
-
 .videos img {
   width: 100%;
   vertical-align: top;
@@ -86,19 +82,11 @@ a {
   .videos {
     grid-template-columns: repeat(4, 1fr);
   }
-
-  .videos li:nth-of-type(1n+9) {
-    display: none;
-  }
 }
 
 @media only screen and (min-width:768px) and (max-width:1200px) {
   .videos {
     grid-template-columns: repeat(3, 1fr);
-  }
-
-  .videos li:nth-of-type(1n+7) {
-    display: none;
   }
 }
 
@@ -106,19 +94,10 @@ a {
   .videos {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  .videos li:nth-of-type(1n+5) {
-    display: none;
-  }
-
 }
 
 @media only screen and (max-width:480px) {
   .videos {
     grid-template-columns: repeat(1, 1fr);
-  }
-
-  .videos li:nth-of-type(1n+3) {
-    display: none;
   }
 }
