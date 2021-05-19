@@ -8,9 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -57,6 +61,21 @@ public class FileServiceImpl implements FileService {
             }
         }
         return null;
+    }
+
+    public Optional<Path> findThumbnailPathById(long id) {
+        Video video = videoService.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Video with id=" + id + "is not exist"));
+        String dirPath = uploadDirectory + File.separator + video.getCreator().getId();
+        String filePath = dirPath + File.separator + video.getId();
+        PathMatcher matcher = FileSystems.getDefault().getPathMatcher("regex:" + filePath + "\\.jpg|jpeg|png");
+        try (Stream<Path> files = Files.walk(Paths.get(dirPath))) {
+            return files
+                    .filter(matcher::matches)
+                    .findFirst();
+        } catch (IOException e) {
+            return Optional.empty();
+        }
     }
 
     private String getFileExtension(String fileName) {
