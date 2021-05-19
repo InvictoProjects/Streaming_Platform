@@ -80,11 +80,12 @@ public class VideoController {
         return ResponseEntity.ok().body(new FileSystemResource(videoFile));
     }
 
-    @PostMapping(value = "/video/add_comment")
-    public String addComment(@RequestParam Long id, @RequestParam String text) {
+    @GetMapping(value = "/video/add_comment")
+    public String addComment(@RequestParam Long id, @RequestParam String text, @RequestParam String creatorLogin) {
         Video video = videoService.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("There is no videos of that user"));
-        User creator = video.getCreator();
+        User creator = userService.findByLogin(creatorLogin).orElseThrow(
+                () -> new IllegalArgumentException("There is no user with that login"));
         Comment comment = new Comment(text, creator, LocalDate.now());
         commentService.addCommentToVideo(comment, video);
         return "redirect:/video?id="+id;

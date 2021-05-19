@@ -64,9 +64,10 @@ function addComment() {
     if (commentText.toString().trim() === "") {
         return;
     }
+    const userLogin = document.getElementById("comment_text").name;
     document.getElementById("comment_text").value = "";
-    request.open("POST", "/video/add_comment");
-    request.send("id=" + id + "&text="+commentText);
+    request.open("GET", "/video/add_comment?id=" + id + "&text="+commentText+"creatorLogin="+userLogin);
+    request.send();
 
     const newComment = document.createElement("div");
     const div1 = document.createElement("div");
@@ -75,7 +76,7 @@ function addComment() {
     const span2 = document.createElement("span");
     const p = document.createElement("p");
 
-    span1.textContent = document.getElementById("comment_text").name+" • ";
+    span1.textContent = userLogin+" • ";
     const date = new Date();
     span2.textContent = date.getUTCFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
     p.textContent = commentText;
