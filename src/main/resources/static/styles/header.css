@@ -46,7 +46,7 @@
   border-radius: 0.5rem;
 }
 
-.logout-btn:hover {
+.text-btn:hover {
   color: var(--color-accent-primary);
 }
 
