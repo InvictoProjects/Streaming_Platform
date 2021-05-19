@@ -1,0 +1,20 @@
+.toggle-password-btn {
+  background-color: var(--color-secondary);
+  border: none;
+  border-radius: 0.5rem;
+  display: inline-block;
+  cursor: pointer;
+  float: right;
+  height: 2rem;
+  width: 2rem;
+  margin-right: 0.40625rem;
+  margin-top: -2.40625rem;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  line-height: 50%;
+}
+
+.toggle-password-btn:hover {
+  background-color: var(--color-accent-secondary);
+}

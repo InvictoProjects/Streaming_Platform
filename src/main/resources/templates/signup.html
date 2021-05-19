@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <link rel="stylesheet" th:href="@{/styles/registrationStyles.css}" href="#">
+    <div th:replace="fragments/captcha.html :: head"></div>
     <meta name="viewport" content="width=device-width, initial-scale=1/0">
 </head>
 <body>
@@ -43,8 +43,8 @@
                     <input th:field="*{dateOfBirth}" type="date" id="dateOfBirth" placeholder="Date of birth"/>
                     <span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}">Date Of Birth Error</span>
                 </div>
-              
-                <div class="g-recaptcha" th:attr="data-sitekey=${@captchaServiceImpl.getReCaptchaSite()}"></div>
+
+                <div th:replace="fragments/captcha.html :: captcha"></div>
 
                 <div class="button">
                     <input type="submit" value="Register"/>
