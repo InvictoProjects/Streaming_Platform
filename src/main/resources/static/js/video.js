@@ -65,8 +65,8 @@ function addComment() {
         return;
     }
     document.getElementById("comment_text").value = "";
-    request.open("POST", "/video/add_comment");
-    request.send("id=" + id + "&text="+commentText);
+    request.open("GET", "/video/add_comment?id=" + id + "&text="+commentText);
+    request.send();
 
     const newComment = document.createElement("div");
     const div1 = document.createElement("div");

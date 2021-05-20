@@ -80,7 +80,7 @@ public class VideoController {
         return ResponseEntity.ok().body(new FileSystemResource(videoFile));
     }
 
-    @PostMapping(value = "/video/add_comment")
+    @GetMapping(value = "/video/add_comment")
     public String addComment(@RequestParam Long id, @RequestParam String text) {
         Video video = videoService.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("There is no videos of that user"));

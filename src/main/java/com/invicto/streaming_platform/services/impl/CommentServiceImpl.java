@@ -3,6 +3,7 @@ package com.invicto.streaming_platform.services.impl;
 import com.invicto.streaming_platform.persistence.model.Comment;
 import com.invicto.streaming_platform.persistence.model.Video;
 import com.invicto.streaming_platform.persistence.repository.CommentRepository;
+import com.invicto.streaming_platform.persistence.repository.VideoRepository;
 import com.invicto.streaming_platform.services.CommentService;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,11 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
+    private final VideoRepository videoRepository;
 
-    public CommentServiceImpl(CommentRepository commentRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, VideoRepository videoRepository) {
         this.commentRepository = commentRepository;
+        this.videoRepository = videoRepository;
     }
 
     @Override
@@ -23,8 +26,9 @@ public class CommentServiceImpl implements CommentService {
         if (comment.getText() == null || comment.getText().strip().equals("")) {
             throw new IllegalArgumentException("There is no text of comment");
         }
-        video.getComments().add(comment);
         commentRepository.save(comment);
+        video.getComments().add(comment);
+        videoRepository.save(video);
     }
 
     @Override
