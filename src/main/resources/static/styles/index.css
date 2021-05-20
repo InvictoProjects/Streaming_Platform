@@ -11,6 +11,7 @@ html {
   --color-secondary: #ffffff;
   --color-accent-primary: #303030;
   --color-accent-secondary: #f5f5f5;
+  --color-highlight: #606060;
   --bg-color-primary: #ffffff;
   --bg-color-secondary: #f5f5f5;
 }
@@ -25,13 +26,19 @@ body {
   min-height: 100vh;
 }
 
-.container {
-  flex: 1;
-}
-
 a {
   text-decoration: none;
   color: var(--color-primary);
+}
+
+.container {
+  flex: 1;
+  margin: 1rem 2rem;
+}
+
+.section-header {
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .videos-container {
@@ -39,40 +46,41 @@ a {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  margin: 1rem 2rem;
-}
-
-.videos-container a {
-  font-size: 1.25rem;
-  font-weight: 400;
-  margin: 1rem 0;
 }
 
 .videos {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(2, 1fr);
   gap: 1.25rem;
   padding: 0;
   margin: 1rem 0;
 }
 
-.videos li:nth-of-type(1n+11) {
-  display: none;
+.videos img {
+  width: 100%;
+  vertical-align: top;
 }
 
-.videos img {
-  max-width: 100%;
+.show-more-btn {
+  background-color: var(--color-secondary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.show-more-btn:hover {
+  background-color: var(--color-accent-secondary);
 }
 
 @media only screen and (min-width:1200px) and (max-width:1680px) {
   .videos {
     grid-template-columns: repeat(4, 1fr);
-  }
-
-  .videos li:nth-of-type(1n+9) {
-    display: none;
   }
 }
 
@@ -80,29 +88,16 @@ a {
   .videos {
     grid-template-columns: repeat(3, 1fr);
   }
-
-  .videos li:nth-of-type(1n+7) {
-    display: none;
-  }
 }
 
 @media only screen and (min-width:480px) and (max-width:768px) {
   .videos {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  .videos li:nth-of-type(1n+5) {
-    display: none;
-  }
-
 }
 
 @media only screen and (max-width:480px) {
   .videos {
     grid-template-columns: repeat(1, 1fr);
-  }
-
-  .videos li:nth-of-type(1n+3) {
-    display: none;
   }
 }

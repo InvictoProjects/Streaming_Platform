@@ -3,6 +3,10 @@ package com.invicto.streaming_platform.services.impl;
 import com.invicto.streaming_platform.persistence.model.Video;
 import com.invicto.streaming_platform.persistence.repository.VideoRepository;
 import com.invicto.streaming_platform.services.VideoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
@@ -66,5 +70,12 @@ public class VideoServiceImpl implements VideoService {
         List<Video> videos = new ArrayList<>();
         videoRepository.findByTitle(title).forEach(videos::add);
         return videos;
+    }
+
+    @Override
+    public List<Video> getPageSortedByViewsCount(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("viewsCount").descending());
+        Page<Video> videosPage = videoRepository.findAll(pageable);
+        return videosPage.toList();
     }
 }

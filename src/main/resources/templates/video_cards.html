@@ -1,0 +1,13 @@
+<li class="video-card" th:each="video: ${videos}">
+    <a th:href="@{'/video?id=' + ${video.id}}">
+        <img th:src="@{'/thumbnail/' + ${video.id}}" alt="">
+    </a>
+    <a class="title" th:href="@{'/video?id=' + ${video.id}}" th:text="${#strings.abbreviate(video.title, 60)}"></a>
+    <a class="creator" th:href="@{'/video?id=' + ${video.id}}" th:text="${video.creator.login}"></a>
+    <span class="details" th:text="
+            @{${video.viewsCount} + ' views ' +
+            ${#temporals.day(video.dateOfPublic)} + ' ' +
+            ${#temporals.monthNameShort(video.dateOfPublic)} + ' ' +
+            ${#temporals.year(video.dateOfPublic)}}">
+    </span>
+</li>

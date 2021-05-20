@@ -8,28 +8,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link th:href="@{/styles/index.css}" rel="stylesheet">
     <link th:href="@{/styles/header.css}" rel="stylesheet">
     <link th:href="@{/styles/footer.css}" rel="stylesheet">
+    <link th:href="@{/styles/video_cards.css}" rel="stylesheet">
+    <script th:src="@{/js/index.js}" async></script>
     <title>Streaming Platform</title>
 </head>
 <body>
 <div th:replace="fragments/header.html :: header"></div>
 <div class="container">
+    <a class="section-header" href="/videos" th:href="@{/videos}">Videos</a>
     <div class="videos-container">
-        <a href="/videos" th:href="@{/videos}">Videos</a>
-        <ul class="videos">
-            <li><img src="../static/images/thumbnail.png" th:src="@{/images/thumbnail.png}" alt=""></li>
-            <li><img src="../static/images/thumbnail.png" th:src="@{/images/thumbnail.png}" alt=""></li>
-            <li><img src="../static/images/thumbnail.png" th:src="@{/images/thumbnail.png}" alt=""></li>
-            <li><img src="../static/images/thumbnail.png" th:src="@{/images/thumbnail.png}" alt=""></li>
-            <li><img src="../static/images/thumbnail.png" th:src="@{/images/thumbnail.png}" alt=""></li>
-            <li><img src="../static/images/thumbnail.png" th:src="@{/images/thumbnail.png}" alt=""></li>
-            <li><img src="../static/images/thumbnail.png" th:src="@{/images/thumbnail.png}" alt=""></li>
-            <li><img src="../static/images/thumbnail.png" th:src="@{/images/thumbnail.png}" alt=""></li>
-            <li><img src="../static/images/thumbnail.png" th:src="@{/images/thumbnail.png}" alt=""></li>
-            <li><img src="../static/images/thumbnail.png" th:src="@{/images/thumbnail.png}" alt=""></li>
-        </ul>
+        <ul class="videos"></ul>
+        <button type="button" class="show-more-btn">
+            <span>Show more</span>
+            <span class="material-icons-outlined">
+                expand_more
+            </span>
+        </button>
     </div>
 </div>
 <div th:replace="fragments/footer.html :: footer"></div>
