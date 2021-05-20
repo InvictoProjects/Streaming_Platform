@@ -22,11 +22,13 @@ public class Comment {
     @Column(name = "date_of_public")
     private LocalDate dateOfPublic;
 
-    public Comment(Long id, String text, User creator, LocalDate dateOfPublic) {
-        this.id = id;
+    public Comment(String text, User creator, LocalDate dateOfPublic) {
         this.text = text;
         this.creator = creator;
         this.dateOfPublic = dateOfPublic;
+    }
+
+    public Comment() {
     }
 
     public Long getId() {

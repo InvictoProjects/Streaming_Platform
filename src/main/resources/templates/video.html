@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <title th:text="${video.getTitle()}"></title>
@@ -28,7 +30,34 @@
             <button id="description_btn" onclick="showDescription()">Show more</button>
             <p></p>
         </div>
+        <hr>
+        <div class="new_comment_area">
+            <div class="comment_title">
+                <p>Comments</p>
+                <p class="comment_details" sec:authorize="isAnonymous()">Authorize to write comments</p>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <div>
+                    <textarea class="comment_area" id="comment_text" th:name="${currUser.getLogin()}" placeholder="Enter you comment" wrap="soft"></textarea>
+                </div>
+                <div>
+                    <button class="comment_btn" onclick="addComment()">Send</button>
+                </div>
+            </div>
+        </div>
+        <div class="comment_table" id="comment_table">
+            <div class="comment" th:each="comment: ${comments}">
+                <div class="comment_info">
+                    <span class="comment_user_name" th:text="${comment.getCreator().getLogin()}"></span>
+                    <span class="comment_date" th:text="' • '+${comment.getDateOfPublic()}"></span>
+                </div>
+                <div class="comment_text">
+                    <p th:text="${comment.getText()}"></p>
+                </div>
+            </div>
+        </div>
     </div>
+    <p></p>
 </body>
 <script type="text/javascript" th:src="@{/js/video.js}"></script>
 </html>

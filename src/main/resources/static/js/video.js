@@ -58,3 +58,42 @@ function showDescription() {
         isShownWhole = true;
     }
 }
+
+function addComment() {
+    const commentText = document.getElementById("comment_text").value;
+    if (commentText.toString().trim() === "") {
+        return;
+    }
+    const userLogin = document.getElementById("comment_text").name;
+    document.getElementById("comment_text").value = "";
+    request.open("GET", "/video/add_comment?id=" + id + "&text="+commentText+"&creatorLogin="+userLogin);
+    request.send();
+
+    const newComment = document.createElement("div");
+    const div1 = document.createElement("div");
+    const div2 = document.createElement("div");
+    const span1 = document.createElement("span");
+    const span2 = document.createElement("span");
+    const p = document.createElement("p");
+
+    span1.textContent = userLogin+" • ";
+    const date = new Date();
+    span2.textContent = date.getUTCFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+    p.textContent = commentText;
+    span1.setAttribute("class", "comment_user_name");
+    span2.setAttribute("class", "comment_date")
+
+    div1.appendChild(span1);
+    div1.appendChild(span2);
+    div1.setAttribute("class", "comment_info");
+
+    div2.appendChild(p);
+    div2.setAttribute("class", "comment_text");
+
+    newComment.appendChild(div1);
+    newComment.appendChild(div2);
+    newComment.setAttribute("class", "comment")
+
+    const comments = document.getElementById("comment_table");
+    comments.insertBefore(newComment, comments.firstChild);
+}
