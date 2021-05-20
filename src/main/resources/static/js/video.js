@@ -66,7 +66,7 @@ function addComment() {
     }
     const userLogin = document.getElementById("comment_text").name;
     document.getElementById("comment_text").value = "";
-    request.open("GET", "/video/add_comment?id=" + id + "&text="+commentText+"creatorLogin="+userLogin);
+    request.open("GET", "/video/add_comment?id=" + id + "&text="+commentText+"&creatorLogin="+userLogin);
     request.send();
 
     const newComment = document.createElement("div");
